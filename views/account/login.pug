@@ -1,0 +1,38 @@
+extends ../layout
+
+block content
+  .page-header
+    h3= _x("Sign in", "Sign in") 
+  form.form-horizontal(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='email')= _x("Mail", "Mail")
+      .col-sm-7
+        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+    .form-group
+      label.col-sm-3.control-label(for='password')= _x("Password", "Password")
+      .col-sm-7
+        input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+    .form-group.pl-3(hidden)
+      .custom-control.custom-switch
+          input#rememberme.custom-control-input(type="checkbox" name="rememberme")
+          label.custom-control-label(for="rememberme")= _x("Remember Me", "Remember Me") 
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.col-sm-3.btn.btn-primary(type='submit')
+          i.fa.fa-user
+          = _x("Sign in", "Sign in") 
+        a.btn.btn-link(href='/forgot')= _x("Forgot your password?", "Forgot your password?") 
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        hr
+    //- .form-group
+    //-   .col-sm-offset-3.col-sm-7
+    //-     a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
+    //-       i.fa.fa-facebook
+    //-       | Sign in with Facebook
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        a.btn.btn-block(href='/auth/request2fa')
+          i.fa.fa-chain
+          | Sign in with Two Factor Authentication

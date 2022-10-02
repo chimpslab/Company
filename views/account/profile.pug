@@ -1,0 +1,144 @@
+extends ../layout
+include ../mixins/modal
+include ../mixins/components/device
+
+block content
+  
+
+  .page-header
+    h3= _x("Profile Information", "Profile Information") 
+
+  form.form-horizontal(action='/account/profile', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='email')= _x("Mail", "Mail")
+      .col-sm-7
+        input.form-control(type='email', name='email', id='email', value=user.email)
+    .form-group
+      label.col-sm-3.control-label(for='name')= _x("Name", "Name")
+      .col-sm-7
+        input.form-control(type='text', name='name', id='name', value=user.profile.name)
+    .form-group
+      label.col-sm-3.control-label Gravatar
+      .col-sm-4
+        img.rounded(src=user.mii(), class='profile', width='100', height='100', alt=((user.profile.name || user.email || user.id)))
+    .form-group
+      .col-sm-offset-3.col-sm-4
+        button.btn.btn.btn-primary(type='submit')
+          i.fa.fa-pencil
+          i= _x("Update Profile", "Button Update Profile")
+          
+
+  .page-header
+    h3 Change Password
+
+  form.form-horizontal(action='/account/password', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='password')= _x("New Password", "New Password") 
+      .col-sm-7
+        input.form-control(type='password', name='password', id='password')
+    .form-group
+      label.col-sm-3.control-label(for='confirmPassword')= _x("Confirm Password", "Confirm Password") 
+      .col-sm-7
+        input.form-control(type='password', name='confirmPassword', id='confirmPassword')
+    .form-group
+      .col-sm-offset-3.col-sm-4
+        button.btn.btn-primary(type='submit')
+          i.fa.fa-lock
+          i= _x("Change Password", "Button change Password")
+
+  .page-header
+    h3 Tokens
+  .row
+    .col
+      .col.ml-4.col-100
+        button.btn.btn-primary(id="getjwt")
+          i.fa.fa-plus
+          i= _x("Request Access Token", "Button request JWT Token")
+        <a href="#" id="jwtresult" class=" card card-body fade mt-3" clipboard >
+          | Praeterea iter est quasdam res quas ex communi.
+        </a>
+    .col.col-12
+      table.table
+        thead 
+          tr
+            th Kind
+            th Expire
+            th Value
+            th Remove
+        tbody
+          each token in _.filter(user.tokens, k => k.kind == "JWT")
+            tr
+              td= token.kind
+              td= moment(token.expire).format("lll")
+              td *************
+              td 
+                button.btn.btn-link.text-danger(data-action='revoke' data-kind=`${token.kind}` data-salt=`${token.userdata.salt}`) 
+                  i.fa.fa-trash
+  .page-header 
+    h3= _x("Your Devices", "Account List of devices")
+    #device-container.card-columns
+
+  .page-header
+    h3= _x("Delete Account", "Delete Account") 
+
+    form.form-horizontal(action='/account/delete', method='POST')
+      .form-group
+        p.col-sm-offset-3.col-sm-4 You can delete your account, but keep in mind this action is irreversible.
+        input(type='hidden', name='_csrf', value=_csrf)
+        .col-sm-offset-3.col-sm-4
+          button.btn.btn-danger(type='submit')
+            i.fa.fa-trash
+            i= _x("Delete my account", "Button Delete Account") 
+
+  //- .page-header(hidden)
+  //-   h3 Linked Accounts
+  //-   .form-horizontal
+  //-     .form-group
+  //-       .col-sm-offset-3.col-sm-4
+  //-         if user.facebook
+  //-           p: a.text-danger(href='/account/unlink/facebook') Unlink your Facebook account
+  //-         else
+  //-           p: a(href='/auth/facebook') Link your Facebook account
+
+
+
+    
+  script.
+    
+    jQuery(document).ready( $ => {
+      const _ = require("lodash");
+      const mustache = require("mustache");
+      const app = require("app");
+      $("#getjwt").click((e) => {
+        const $LblJWTResult = $("#jwtresult")[0];
+
+        $.post("/auth/token/JWT", (e) => {
+          console.log(e)
+          const $LblJWTResult = $("#jwtresult");
+          $LblJWTResult.html(e);
+          $LblJWTResult.addClass("show");
+        })
+      })
+
+      $("[data-action=revoke").click(function(event) {
+        const salt = this.dataset.salt;
+        const kind = this.dataset.kind;
+        if(salt) {
+          $.get(`/auth/unlink/${kind}?salt=${salt}`, (e) => {
+            location.reload();
+          })
+        }
+      })
+
+      $("[clipboard]").clipboard();
+
+
+      
+    })
+
+block header
+
+  +device-manager()
+  

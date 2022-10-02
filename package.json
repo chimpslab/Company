@@ -1,0 +1,81 @@
+{
+  "name": "company",
+  "version": "1.0.0",
+  "description": "Invoice system and tools to manage an company",
+  "main": "index.js",
+  "scripts": {
+    "build-ts": "tsc",
+    "build-js": "node browserify.js",
+    "build-sass": "node sassify.js",
+    "start": "node dist/server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chimpslab/Company.git"
+  },
+  "keywords": [
+    "invoice",
+    "management"
+  ],
+  "author": "nicolas santamaria",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/chimpslab/Company/issues"
+  },
+  "homepage": "https://github.com/chimpslab/Company#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "async": "^3.2.4",
+    "bcrypt": "^5.0.1",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.20.0",
+    "bootstrap": "^5.2.1",
+    "compression": "^1.7.4",
+    "connect-mongo": "^4.6.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "errorhandler": "^1.5.1",
+    "express": "^4.18.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.14.2",
+    "jquery": "^3.6.1",
+    "lodash": "^4.17.21",
+    "lusca": "^1.7.0",
+    "luxon": "^3.0.4",
+    "mongoose": "^6.6.3",
+    "mustache": "^4.2.0",
+    "passport": "^0.6.0",
+    "passport-auth-token": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "pug": "^3.0.2",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.11.0",
+    "@types/async": "^3.2.15",
+    "@types/bcrypt": "^5.0.0",
+    "@types/bluebird": "^3.5.37",
+    "@types/bootstrap": "^5.2.4",
+    "@types/compression": "^1.7.2",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/errorhandler": "^1.5.0",
+    "@types/express": "^4.17.14",
+    "@types/express-flash": "^0.0.2",
+    "@types/express-session": "^1.17.5",
+    "@types/jquery": "^3.5.14",
+    "@types/lodash": "^4.14.186",
+    "@types/lusca": "^1.7.1",
+    "@types/luxon": "^3.0.1",
+    "@types/mustache": "^4.2.1",
+    "@types/passport-auth-token": "^1.0.1",
+    "@types/passport-local": "^1.0.34",
+    "browserify": "^17.0.0",
+    "minifyify": "^7.3.5",
+    "sass": "^1.55.0",
+    "tsify": "^5.0.4",
+    "typescript": "^4.8.4"
+  }
+}

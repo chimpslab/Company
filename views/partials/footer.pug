@@ -1,0 +1,19 @@
+footer
+  .text-right.fixed-bottom.d-none.d-lg-block
+    p.pull-right.w-100
+      //- i.fa.fa-cube
+      a.mx-3.font-weight-light.text-muted#alegal(href="/legals")= `Company (v ${version || "1.0.0"}) © 2019-22 CHIMPS.lab. All Rights Reserved.`
+
+  if(user)
+    #geolocation(data-latitude data-longitude)
+    script.
+      const updateToken = () => {
+        $.get("/account/token/ajax", (token) => {
+          console.log("Token:", token);
+          $("#secret").val(token);
+        })
+      }
+      setInterval(updateToken, (1000 * 60 * 60 * 6)); // every 6 hours
+
+  script.
+    const bootstrap = require('bootstrap')

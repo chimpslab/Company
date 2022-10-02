@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  .card-body
+    form(method='POST' action="/auth/verify2fa")
+        legend= _x("Two Factor Authentication", "Two Factor Authentication")
+        .form-group
+          label(for="token")= _x("Enter code", "Enter the code received by mail")
+          input.form-control(type='text', name='token', id='token', placeholder='X', autofocus, required)
+        .form-group
+          button.btn.btn-primary(type='submit')
+            i.fa.fa-key
+            = _x("Check Code", "Check 2fa code")

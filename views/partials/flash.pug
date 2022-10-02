@@ -1,0 +1,66 @@
+
+.flash
+    .p-2
+        if messages.errors
+            .alert.alert-danger.alert-dismissible.fade.m-1
+                button.close(type='button', data-dismiss='alert')
+                    i.fa.fa-times-circle-o
+                for error in messages.errors
+                    div= _.get("error.msg", error)
+        if messages.info
+            .alert.alert-info.alert-dismissible.fade.m-1
+                button.close(type='button', data-dismiss='alert')
+                    i.fa.fa-times-circle-o
+                for info in messages.info
+                    div= _.get("info.msg", error)
+        if messages.warnings
+            .alert.alert-warning.alert-dismissible.fade.m-1
+                button.close(type='button', data-dismiss='alert')
+                    i.fa.fa-times-circle-o
+                for info in messages.warnings
+                    div= _.get("info.msg", error)
+        if messages.success
+            .alert.alert-success.alert-dismissible.fade.m-1
+                button.close(type='button', data-dismiss='alert')
+                    i.fa.fa-times-circle-o
+                for success in messages.success
+                    div= success.msg
+
+    script#flash_error(type="x-tmpl-mustache")
+        .alert.alert-danger.alert-dismissible.fade.m-1
+            button.close(type='button' data-dismiss='alert')
+                span.fa.fa-times-circle-o
+            | {{#errors}}
+            p {{{msg}}}
+            | {{/errors}}
+    script#flash_success(type="x-tmpl-mustache")
+        .alert.alert-success.alert-dismissible.fade.m-1
+            button.close(type='button' data-dismiss='alert')
+                span.fa.fa-times-circle-o
+            | {{#success}}
+            p {{{msg}}}
+            | {{/success}}
+    script#flash_warning(type="x-tmpl-mustache")
+        .alert.alert-warning.alert-dismissible.fade.m-1
+            button.close(type='button' data-dismiss='alert')
+                span.fa.fa-times-circle-o
+            | {{#warnings}}
+            p {{{msg}}}
+            | {{/warnings}}
+    script#flash_info(type="x-tmpl-mustache")
+        .alert.alert-info.alert-dismissible.fade.m-1
+            button.close(type='button' data-dismiss='alert')
+                span.fa.fa-times-circle-o
+            | {{#info}}
+            p {{{msg}}}
+            | {{/info}}
+
+    script.
+        jQuery(document).ready($=>{
+            $('.alert.fade:not(.show)').addClass('show');
+            $('.alert:not(.alert-danger):not(.alert-warning)').flash_duration();
+            $('.alert-warning').flash_duration(10000);
+            $('.alert-danger').flash_duration(20000);
+        })
+
+    

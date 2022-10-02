@@ -1,0 +1,42 @@
+doctype html
+- const theme = ""; 
+html(lang='' class=`${theme}`)
+    //- env = env || {};
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        title Company - #{title}
+        meta(name='description', content='')
+        meta(name='csrf-token', content=_csrf)
+        link(rel='shortcut icon', href='/images/favicon.png')
+        link(rel='stylesheet' href=`/bundle.${version}.css` type="text/css" )
+
+        script(src=`/bundle.${version}.js`)
+        script.
+            const app = require('app');
+            console.log(`Version: ${app.version}`)
+            window.jQuery = app.core.jQuery
+
+
+        block header
+
+    body(class=`${title?title.toLowerCase():""}`)
+        include partials/flash
+
+        block bodyheader    
+            include partials/header
+
+        block navbar
+            include partials/navbar
+        
+        .container
+            block content
+
+        .container-fluid
+            block fluid
+
+        block script
+
+        include partials/footer
+

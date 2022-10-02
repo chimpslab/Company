@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  .col-sm-8.col-sm-offset-2
+    form(method='POST')
+      legend= _x("Reset Password", "Legend change Password")
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label(for='password')= _x("New Password", "New Password") 
+        input.form-control(type='password', name='password', id='password', placeholder='New password', autofocus, required)
+      .form-group
+        label(for='confirm')= _x("Confirm Password", "Confirm Password") 
+        input.form-control(type='password', name='confirm', id='confirm', placeholder='Confirm password', required)
+      .form-group
+        button.btn.btn-primary.btn-reset(type='submit')
+          i.fa.fa-keyboard-o
+          = _x("Change Password", "Button change Password")
