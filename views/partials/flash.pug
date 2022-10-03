@@ -1,30 +1,26 @@
 
-.flash
-    .p-2
+.flash.position-relative
+    .p-2.position-absolute.top-0.end-0
         if messages.errors
-            .alert.alert-danger.alert-dismissible.fade.m-1
-                button.close(type='button', data-dismiss='alert')
-                    i.fa.fa-times-circle-o
+            .alert.alert-danger.alert-dismissible.fade.m-1.d-flex(role="alert")
                 for error in messages.errors
-                    div= _.get("error.msg", error)
+                    div= _.get(error, "error.msg", error)
+                button.btn.btn-close(type='button', bs-data-dismiss='alert' aria-label="close")
         if messages.info
-            .alert.alert-info.alert-dismissible.fade.m-1
-                button.close(type='button', data-dismiss='alert')
-                    i.fa.fa-times-circle-o
+            .alert.alert-info.alert-dismissible.fade.m-1.d-flex(role="alert")
                 for info in messages.info
-                    div= _.get("info.msg", error)
+                    div= _.get(info, "info.msg", info)
+                button.btn.btn-close(type='button', bs-data-dismiss='alert' aria-label="close")
         if messages.warnings
-            .alert.alert-warning.alert-dismissible.fade.m-1
-                button.close(type='button', data-dismiss='alert')
-                    i.fa.fa-times-circle-o
-                for info in messages.warnings
-                    div= _.get("info.msg", error)
+            .alert.alert-warning.alert-dismissible.fade.m-1.d-flex(role="alert")
+                for warning in messages.warnings
+                    div= _.get(warning, "info.msg", warning)
+                button.btn.btn-close(type='button', bs-data-dismiss='alert' aria-label="close")
         if messages.success
-            .alert.alert-success.alert-dismissible.fade.m-1
-                button.close(type='button', data-dismiss='alert')
-                    i.fa.fa-times-circle-o
+            .alert.alert-success.alert-dismissible.fade.m-1.d-flex(role="alert")
                 for success in messages.success
-                    div= success.msg
+                    div= _.get(success, "success.msg", success)
+                button.btn.btn-close(type='button', bs-data-dismiss='alert' aria-label="close")
 
     script#flash_error(type="x-tmpl-mustache")
         .alert.alert-danger.alert-dismissible.fade.m-1

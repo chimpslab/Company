@@ -6,14 +6,6 @@ footer
 
   if(user)
     #geolocation(data-latitude data-longitude)
-    script.
-      const updateToken = () => {
-        $.get("/account/token/ajax", (token) => {
-          console.log("Token:", token);
-          $("#secret").val(token);
-        })
-      }
-      setInterval(updateToken, (1000 * 60 * 60 * 6)); // every 6 hours
 
   script.
     const bootstrap = require('bootstrap')

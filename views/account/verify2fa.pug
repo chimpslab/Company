@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  .card-body
+  .card-body.position-absolute.top-50.start-50.translate-middle
     form(method='POST' action="/auth/verify2fa")
         legend= _x("Two Factor Authentication", "Two Factor Authentication")
         .form-group

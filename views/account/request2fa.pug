@@ -1,15 +1,15 @@
 extends ../layout
 
 block content
-    .card-body
-        form(method='POST'  action="/login")
-            legend= _x("Two Factor Authentication", "Two Factor Authentication")
+  .card-body.position-absolute.top-50.start-50.translate-middle
+    form(method='POST'  action="/login")
+      legend= _x("Two Factor Authentication", "Two Factor Authentication")
 
-            .form-group 
-                label(for="emailaddress")= _x("Email Address", "Email address")
-                input#emailaddress.form-control(type='email', name='email', value=``)
-            
-            .form-group
-                button.btn.btn-primary(type='submit')
-                    i.fa.fa-key
-                    = _x("Request", "Request 2fa code")
+      .form-group 
+        label(for="emailaddress")= _x("Email Address", "Email address")
+        input#emailaddress.form-control(type='email', name='email', value=``)
+      
+      .form-group.mt-2
+        button.btn.btn-primary(type='submit')
+          i.fa.fa-key
+          span.ps-2= _x("Request", "Request 2fa code")

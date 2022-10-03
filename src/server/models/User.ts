@@ -1,9 +1,7 @@
 // 2019 BrightNightGames. All Rights Reserved
-import bcrypt from "bcrypt";
 import crypto from "crypto";
 import mongoose, { Callback } from "mongoose";
 import { ERoles } from "./Role";
-import { JWT_SECRET } from "../util/secrets";
 import _ from "lodash";
 import logger from "../util/logger";
 
@@ -38,9 +36,6 @@ interface IAccountHistory {
 
 export type UserDocument = mongoose.Document & {
     email: string,
-    password: string,
-    passwordResetToken: string,
-    passwordResetExpires: Date,
 
     role: ERoles,
     roleProfile: { type: mongoose.Schema.Types.ObjectId, ref: "Role" },
@@ -62,7 +57,6 @@ export type UserDocument = mongoose.Document & {
     agreements: IAgreement[];
     history: IAccountHistory[];
 
-    comparePassword: comparePasswordFunction,
     gravatar: (size: number) => string,
 
 };
@@ -114,29 +108,6 @@ const userSchema = new mongoose.Schema({
     agreements: { type: [Object] },
     history: { type: [Object] }
 }, { timestamps: true });
-
-/**
- * Password hash middleware.
- */
-userSchema.pre("save", function save(this: UserDocument, next) {
-    const user = this;
-    if (!user.isModified("password")) { return next(); }
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) { return next(err); }
-        bcrypt.hash(user.password, salt, (err: mongoose.Error, hash) => {
-            if (err) { return next(err); }
-            user.password = hash;
-            next();
-        });
-    });
-});
-
-const comparePassword: comparePasswordFunction = function (candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, (err: mongoose.Error, isMatch: boolean) => {
-        cb(err, isMatch);
-    });
-};
-userSchema.methods.comparePassword = comparePassword;
 
 /**
  * Helper method for getting user's gravatar.

@@ -1,1 +1,19 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap";
+:root{
+
+    --bs-body-color: rgb(231, 231, 231);
+    --bs-body-bg: rgb(34, 39, 49);
+
+    .navbar{
+
+        --bs-navbar-color: rgba(231, 231, 231, 0.55);
+        --bs-navbar-hover-color: rgba(231, 231, 231, 0.7);
+        --bs-navbar-disabled-color: rgba(231, 231, 231, 0.3);
+        --bs-navbar-active-color: rgba(231, 231, 231, 0.9);
+        --bs-navbar-brand-color: rgba(231, 231, 231, 0.9);
+        --bs-navbar-brand-hover-color: rgba(231, 231, 231, 0.9);
+        --bs-navbar-toggler-border-color: rgba(231, 231, 231, 0.1);
+    }
+}
+
+@import "../../../node_modules/font-awesome/scss/font-awesome";

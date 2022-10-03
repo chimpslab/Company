@@ -7,6 +7,7 @@
     "build-ts": "tsc",
     "build-js": "node browserify.js",
     "build-sass": "node sassify.js",
+    "copyassets": "node copyassets.js",
     "start": "node dist/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,7 +28,6 @@
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "async": "^3.2.4",
-    "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
     "body-parser": "^1.20.0",
     "bootstrap": "^5.2.1",
@@ -73,8 +73,10 @@
     "@types/passport-auth-token": "^1.0.1",
     "@types/passport-local": "^1.0.34",
     "browserify": "^17.0.0",
+    "font-awesome": "^4.7.0",
     "minifyify": "^7.3.5",
     "sass": "^1.55.0",
+    "shelljs": "^0.8.5",
     "tsify": "^5.0.4",
     "typescript": "^4.8.4"
   }
