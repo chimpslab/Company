@@ -104,27 +104,21 @@ app.get("/500", (req: Request, res: Response, next: NextFunction) => { res.rende
 app.get("/legals", (req: Request, res: Response, next: NextFunction) => { res.render("legals", {title: "Legals"}); });
 
 import AccountRouter from "./routes/account"
-
 app.use(AccountRouter);
 
+import OrganizationRouter from "./routes/organization"
+app.use(OrganizationRouter);
 
-const lateInit = function() {
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    const flash = req.flash();
-    if (flash && Object.keys(flash).length) {
-      if (req.xhr || req.body.ajax)
-        return res.send(flash);
-    }
-    next();
-  });
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    if (res.statusCode == 404) {
-      if (req.xhr) return res.status(404).send("Can't find thant !");
-      return res.redirect("/404");
-    }
-    res.redirect("/");
-  });
-};
+app.get("/system/timezone", (req: Request, res: Response) => { return res.send(require("./data/timezone.json")); });
 
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const flash = req.flash();
+  if (flash && Object.keys(flash).length) {
+    if (req.xhr || req.body.ajax)
+      return res.send(flash);
+  }
+  next();
+});
 
 export default app;

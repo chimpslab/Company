@@ -8,6 +8,19 @@ services:
     restart: unless-stopped
     volumes:
       - ./envirs/.env:/app/.env
+      # - ./dist:/app/dist
+      - ./views:/app/views
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "10015:80"
+  staging:
+    build:
+      context: .
+    image: company:0.0.1
+    restart: unless-stopped
+    volumes:
+      - ./envirs/.env:/app/.env
       - ./dist:/app/dist
       - ./views:/app/views
       - "/etc/timezone:/etc/timezone:ro"

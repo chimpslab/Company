@@ -1,9 +1,15 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 :root{
-
     --bs-body-color: rgb(231, 231, 231);
     --bs-body-bg: rgb(34, 39, 49);
-
+    form{
+        .form-control {
+            border-radius: 0%;
+        }
+    }
+    .btn {
+        --bs-btn-color: rgb(231, 231, 231)
+    }
     .navbar{
 
         --bs-navbar-color: rgba(231, 231, 231, 0.55);
@@ -13,6 +19,21 @@
         --bs-navbar-brand-color: rgba(231, 231, 231, 0.9);
         --bs-navbar-brand-hover-color: rgba(231, 231, 231, 0.9);
         --bs-navbar-toggler-border-color: rgba(231, 231, 231, 0.1);
+    }
+
+    .nav-tabs {
+        --bs-nav-tabs-border-width: 1px;
+        --bs-nav-tabs-border-color: transparent;
+        --bs-nav-tabs-border-radius: 0.375rem;
+        --bs-nav-tabs-link-hover-border-color: #e9ecef #e9ecef #dee2e6;
+        --bs-nav-tabs-link-active-color: rgb(38, 42, 49);
+        --bs-nav-tabs-link-active-bg: #fff;
+        --bs-nav-tabs-link-active-border-color: #dee2e6 #dee2e6 #fff;
+    }
+
+    .modal {
+        --bs-modal-color: rgba(231, 231, 231);
+        --bs-modal-bg: rgb(34, 39, 49);
     }
 }
 

@@ -1,15 +1,24 @@
-import Flash, { flash_duration } from "./core/Flash"
+import Flash, { flash_duration } from "./core/flash"
 import jQuery from "jquery"
+
+import {PTOrganizationPanel} from "./app/organization"
+import { select_timezone } from "./core/timezone";
+
 export const version = "1.0.0";
 export const app = {
     
     jQuery: jQuery.fn.extend({
-        flash_duration: flash_duration,
+        flash_duration,
+        select_timezone,
     })
 }
 
 export const core = {
     Flash,
     jQuery
+}
+
+export const widget = {
+    PTOrganizationPanel
 }
 export default app;

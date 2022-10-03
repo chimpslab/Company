@@ -277,13 +277,11 @@ export let verify2FA = (req: Request, res: Response, next: NextFunction) => {
         req.flash("errors", info.message);
         return res.redirect("/login");
       }
-      logger.debug(" authtoken authenticated " +  JSON.stringify({err, user} || {err}))
       user.tokens = _.filter(user.tokens, t => t.kind != "2FA");
       user.save((err, u) => {
           if (err) { return res.redirect("/login"); }
           req.login(u, (err) => {
             if (err) { return res.redirect("/login"); }
-            logger.debug(" authtoken Logged In " +  JSON.stringify({err, u} || {err}))
 
             req.flash("success", "Success! You are logged in." );
             // res.redirect(req.session.returnTo || "/");

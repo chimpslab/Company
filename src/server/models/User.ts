@@ -19,12 +19,7 @@ export enum EAccountHistoryEventType {
     HISTORY_ACCOUNT_CREATE,
     HISTORY_ACCOUNT_UPDATE,
     HISTORY_CONSENT_CHANGED,
-    HISTORY_ACCOUNT_PASSWORD_RESET_VIA_EMAIL,
-    HISTORY_ACCOUNT_PASSWORD_RESET_CODE_GENERATED,
     HISTORY_ACCOUNT_2FA_REQUESTED,
-    HISTORY_ACCOUNT_JWT_REQUESTED,
-    HISTORY_ACCOUNT_JWT_ACCEPTED,
-    HISTORY_ACCOUNT_JWT_UNLINKED,
 }
 interface IAccountHistory {
     type: EAccountHistoryEventType;
@@ -170,36 +165,11 @@ userSchema.static("issueToken", function (userId: string, kind: string, duration
                 : DateTime.now().plus({years: 50}).toJSDate() // 1D
         };
 
-        switch (kind) {
-            case "JWT":
-                // token.accessToken = jws.sign({
-                //     secret: JWT_SECRET,
-                //     header: {
-                //         alg: "HS256"
-                //     },
-                //     payload: userdata
-                // });
-                break;
-        }
-
         if (userdata) {
             token.userdata = userdata;
         }
-        // console.log("issue Token for user" + this.email);
 
         if (unique) {
-
-            // if (user.tokens.findIndex(k => {
-            //   return k.userdata && userdata && userdata.salt
-            //     && k.userdata.salt == userdata.salt;
-            // }) >= 0) {
-
-            //   return resolve({
-            //     user: user,
-            //     token: token}
-            //   );
-            // }
-
             user.tokens = user.tokens.filter((k: AuthToken) => {
                 if (k.kind != kind) return true;
                 if (k.userdata && userdata && userdata.salt
@@ -215,9 +185,6 @@ userSchema.static("issueToken", function (userId: string, kind: string, duration
         switch (kind) {
             case "2FA":
                 user.history.push({ type: EAccountHistoryEventType.HISTORY_ACCOUNT_2FA_REQUESTED, date: new Date(), note: "User request 2FA" });
-                break;
-            case "JWT":
-                user.history.push({ type: EAccountHistoryEventType.HISTORY_ACCOUNT_JWT_REQUESTED, date: new Date(), note: "User request JWT" });
                 break;
         }
         // End GDPR

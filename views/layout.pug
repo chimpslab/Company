@@ -16,9 +16,9 @@ html(lang='' class=`${theme}`)
         script.
             const app = require('app');
             console.log(`Version: ${app.version}`)
-            window.jQuery = app.core.jQuery
-
-
+            window.jQuery = window.$ =  app.core.jQuery
+            window.Alpine = require("alpinejs").default
+            
         block header
 
     body(class=`${title?title.toLowerCase():""}`)
@@ -38,5 +38,6 @@ html(lang='' class=`${theme}`)
 
         block script
 
-        include partials/footer
+        block footer
+            include partials/footer
 

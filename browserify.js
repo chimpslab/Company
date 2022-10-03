@@ -11,6 +11,7 @@ const minversion = __dirname + `/dist/client/bundle.${package.version}.min.js`;
 const main = browserify({debug: minify})
     .require("./src/client/main.ts", {expose:"app"})
     .require("bootstrap")
+    .require("alpinejs", {expose:"alpinejs"})
     .plugin("tsify", { target: 'es6' })
 
 if (minify)

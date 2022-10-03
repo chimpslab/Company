@@ -1,69 +1,45 @@
 import mongoose from "mongoose";
+import { IPerson } from "./Person";
+import { ThingDocument, ThingSchema } from "./Thing";
 
-export type OrganizationDocument = mongoose.Document & {
-    name: string,
-    short: string,
-    logoLarge: string,
-    logoSmall: string,
-    banner: string,
+export interface iAddress {
+    country: string;
+    region: string;
+    city: string;
+    postalCode: string;
+    streetAddress: [string];
+}
 
-    contact: {
-        person: string,
-        phone: string,
-        email: string,
-        note: string,
-    }
+export interface iBillingAddress extends iAddress{
+}
 
-    billing: any,
-    // billing: PaymentAddress,
-    // postal: PaymentAddress,
-    // sameHasBilling: boolean,
-
+export interface IOrganization {
+    languageCode: string;
+    legalName: string,
+    telephone: string;
+    contact: string,
+    billing: iBillingAddress,
+    taxID: String,
+    vatID: String,
+    parentOrganization: IOrganization,
     timezone: string,
-
-    comment: string,
-};
-
-export interface IOrganization extends mongoose.Model<OrganizationDocument> {
-    searchPartial: (term: string, callback: mongoose.Callback) => void;
+    tags: [string],
 }
 
-const OrganizationDocumentShema = new mongoose.Schema({
-    name: {type: String, required: true},
-    short: {type: String, required: true},
-    logoLarge: {type: String},
-    logoSmall: {type: String},
-    banner: {type: String},
-
-    contact: {
-        person: {type: String},
-        phone: {type: String},
-        email: {type: String},
-        note: {type: String},
-    },
-
-    billing: Object,
-    // postalAddress: Object,
-    // sameHasBilling: Boolean,
-
+const OrganizationShema = new mongoose.Schema({
+    legalName: {type: String},
+    telephone: {type: String},
+    contact: {type: mongoose.Schema.Types.ObjectId, ref: "Person"},
+    address: {type: Object},
+    billing: {type: Object},
+    taxID: {type: String, require: true},
+    vatID: {type: String, require: true},
     timezone: String,
-
-
-    comment: {type: String},
+    tags: [String],
 });
+OrganizationShema.add(ThingSchema)
 
-export interface OrganizationSearchOption {
-    id: string
-    query: string;
-    page: number;
-    sortorder: -1|1;
-
-    sortfield: string;
-    limit: number;
-    count: boolean;
-}
-
-OrganizationDocumentShema.static("searchPartial", function(query: string, callback: mongoose.Callback) {
+OrganizationShema.static("searchPartial", function(query: string, callback: mongoose.Callback) {
     return this.find({
         $or: [
             { "name": new RegExp(query, "gi") },
@@ -71,4 +47,8 @@ OrganizationDocumentShema.static("searchPartial", function(query: string, callba
         ]
     }, callback);
 });
-export const Organization = mongoose.model<OrganizationDocument, IOrganization>("Organization", OrganizationDocumentShema);
+export type OrganizationDocument = IOrganization & ThingDocument & {};
+export interface IOrganizationModel extends mongoose.Model<OrganizationDocument> {
+    searchPartial: (term: string, callback: mongoose.Callback) => void;
+}
+export const Organization = mongoose.model<OrganizationDocument, IOrganizationModel>("Organization", OrganizationShema);

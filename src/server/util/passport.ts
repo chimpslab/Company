@@ -7,10 +7,8 @@ import _ from "lodash";
 import { AuthToken, User, UserDocument } from "../models/User";
 import { Request, Response, NextFunction } from "express";
 import { ERoles } from "../models/Role";
-import logger from "./logger";
 import { DateTime } from "luxon";
 
-const LocalStrategy = passportLocal.Strategy;
 const AuthTokenStrategy = passportAuth;
 
 passport.serializeUser<any, any>((req, user, done) => {
@@ -23,30 +21,8 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-
-/**
- * Sign in using Email and Password.
- */
-passport.use("local", new LocalStrategy({ usernameField: "email" },
-  (email, password, done) => {
-    User.findOne({ email: email.toLowerCase() }, null, null, (err, user: any) => {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(undefined, false, { message: `Email ${email} not found.` });
-      }
-      user.comparePassword(password, (err: Error, isMatch: boolean) => {
-        if (err) { return done(err); }
-        if (isMatch) {
-          return done(undefined, user);
-        }
-        return done(undefined, false, { message: "Invalid email or password." });
-      });
-    });
-}));
-
 passport.use("authtoken", new AuthTokenStrategy((token: string, done) => {
 
-  console.log("Now checking auth");
   User.find({}, (err: Error, users: UserDocument) => {
 
     if (err) done(err);
@@ -67,7 +43,6 @@ passport.use("authtoken", new AuthTokenStrategy((token: string, done) => {
 
     if (!Token || !user) done(undefined, false);
 
-    logger.debug("Verify 2fa", {Token, user, token});
     if (user) {
       done(undefined, user);
     }
@@ -81,20 +56,13 @@ passport.use("authtoken", new AuthTokenStrategy((token: string, done) => {
  * Login Required middleware.
  */
 export let isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  logger.debug("CHECK Authenticated with TOKEN");
   if (req.isAuthenticated()) {
-    logger.debug("CHECK Authenticated YAY");
     if (req.user.role != ERoles.disabled) {
-      // console.log("GRANT Authenticated with TOKEN");
-
       return next();
     }
   }
-  else {
-    logger.debug("CHECK Authenticated NO");
-    if (req.xhr) return res.send(403);
-    res.redirect("/login");
-  }
+  if (req.xhr) return res.send(403);
+  res.redirect("/login");
 };
 
 /**
