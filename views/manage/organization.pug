@@ -12,7 +12,6 @@ block header
           th(scope="col") 
           th(scope="col") 
           th(scope="col")= _x("Name","Name")
-          th(scope="col")= _x("Short","Short Name")
           th(scope="col")
             span.d-none.d-md-block= _x("Leave a comment...","comment the event")
           th(scope="col") 
@@ -32,19 +31,17 @@ block header
           a.btn.btn-link.details.p-0(href="#" tabindex="0" data-html="true" role="button" data-toggle="popover" data-trigger="focus")
             .fa.fa-search
       td
-        img.logo(src="{{logoSmall}}" width="32" height="32")
+        img.logo(src="{{image}}" width="32" height="32")
       td {{name}}
-      td {{short}}
       td
         span.d-none.d-md-block {{comment}}
       td 
-        a.d-none.d-lg-block(href="#" clipboard="+{{contact.phone}}")
-          label.text-monospace {{#contact.phone}}+{{contact.phone}}{{/contact.phone}}{{^contact.phone}}-{{/contact.phone}}
+        a.d-none.d-lg-block(href="#" clipboard="+{{telephone}}")
+          label.text-monospace {{#telephone}}+{{telephone}}{{/telephone}}{{^telephone}}-{{/telephone}}
       
       td 
         a.p-2.btn.btn-link.fa.fa-pencil.edit(href="#" data-id="{{_id}}")
         a.p-2.btn.btn-link.fa.fa-remove.delete(href="#" data-id="{{_id}}")
-
   script#tmpl-row-popover(type="x-tmpl-mustache")
     .m-1
       dl.row
@@ -62,22 +59,20 @@ block header
             .p-1
               a(href="#" phone="{{phone}}" clipboard="{{phone}}")
                 .fa.fa-phone.pr-2
-                label.text-monospace {{#contact.phone}}+{{contact.phone}}{{/contact.phone}}{{^contact.phone}}-{{/contact.phone}}
+                label.text-monospace {{#telephone}}+{{telephone}}{{/telephone}}{{^telephone}}-{{/telephone}}
       .row
         .col
           .card.bg-light.p-1
             span.card-text {{#comment}}{{comment}}{{/comment}}{{^comment}}-{{/comment}}
-  
   script#tmpl-addressline(type="x-tmpl-mustache")
     .form-group.col-12
       label(for=`{{r}}_billing_address`)= _x("Address","Address") 
       input.form-control(type='text', value="{{.}}" name='billing_address', id=`{{r}}_billing_address` placeholder="1234B Main St"  )
-  
   script#tmpl-form(type="x-tmpl-mustache")
     .container
-      form.form-horizontal(action="{{action}}", method='POST', autocomplete="off", id="{{id}}")
+      form.form-horizontal(action="{{action}}", method='POST', autocomplete="off")
         input(type='hidden', name='_csrf', value="_csrf")
-        input(type='hidden', name='id', value="{{id}}")
+        input(type='hidden', name='id', value="{{_id}}")
 
         .row
           .col.col-12 
@@ -101,7 +96,7 @@ block header
             input.form-control(type='text', value="{{legalName}}" name='legalName', id=`{{r}}_legalname`  placeholder="Legal Name" required)
           .form-group.col-md-6
             label(for=`{{r}}_phone`)= _x("Phone","Phone")  
-            input.form-control(type='text', value="{{telephone}}" name='telephone', id=`{{r}}_phone` placeholder="32484XXXXXX" pattern="[0-9]")
+            input.form-control(type='text', value="{{telephone}}" name='telephone', id=`{{r}}_phone` placeholder="32484XXXXXX" pattern="[0-9]+")
           .form-group.col-md-6
             label(for=`{{r}}_language`)= _x("Language","Language")  
             input.form-control(type='text', value="{{languageCode}}" name='languageCode', id=`{{r}}_language` placeholder="be-fr")
@@ -142,9 +137,9 @@ block header
           .form-group.col-md-6
             label(for=`{{r}}_billing_postal_code`)= _x("Postal Code","Postal Code")   
             input.form-control(type='text', value="{{billing.postalCode}}" name='billing_postalCode', id=`{{r}}_billing_zip` placeholder="1080" required)
-          |{{#billing.addressLine}} 
+          |{{#billing.streetAddress}} 
           |  {{ > addressline}}
-          |{{/billing.addressLine}}
+          |{{/billing.streetAddress}}
         .row
           .col.col-12 
             h5= _x("Advanced","Advanced") 

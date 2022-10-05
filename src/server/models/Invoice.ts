@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import mongoose, { mongo } from "mongoose";
-import { ThingDocument, ThingSchema } from "./Thing";
+import { iThing, ThingDocument, ThingSchema } from "./Thing";
 
 export interface iItemQuantity {
     item: string;
@@ -13,14 +13,14 @@ export class ItemQuantity implements iItemQuantity{
 }
 
 export enum EPaymentStatus {
-    PaymentAutomaticallyApplied,
-    PaymentComplete,
-    PaymentDeclined,
-    PaymentDue,
-    PaymentPastDue,
+    PaymentAutomaticallyApplied = "Automatic",
+    PaymentComplete = "Completed",
+    PaymentDeclined = "Declined",
+    PaymentDue = "Due",
+    PaymentPastDue = "PastDue",
 }
 
-export type InvoiceDocument = ThingDocument & {
+export interface iInvoice extends iThing {
     provider: string,
     customer: string,
     uiid: string, // unique invoice id
@@ -33,12 +33,14 @@ export type InvoiceDocument = ThingDocument & {
 const InvoiceSchema = new mongoose.Schema({
     provider: {type: mongoose.Schema.Types.ObjectId, ref: "Organization", require: true},
     customer: {type: mongoose.Schema.Types.ObjectId, ref: "Organization", require: true},
-    items: {type: [ItemQuantity], require: true},
+    items: {type: [Object], require: true},
     vatrate: {type: Number},
     totalPaymentDue: {type: Number, require: true},
     paymentDueDate: {type: Date, default: DateTime.now().plus({days: 10}).toJSDate()},
-    paymentStatus: {type: EPaymentStatus, default: EPaymentStatus.PaymentDue}
+    paymentStatus: {type: Object.values(EPaymentStatus), default: EPaymentStatus.PaymentDue}
 }, {timestamps: true});
 InvoiceSchema.add(ThingSchema)
+
+export type InvoiceDocument = iInvoice & ThingDocument & {}
 
 export const Invoice = mongoose.model<InvoiceDocument>("Invoice", InvoiceSchema);

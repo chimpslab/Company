@@ -1,0 +1,40 @@
+//- 2019 BrightNightGames. All Rights Reserved
+
+extends ../layout
+
+block header 
+
+block content 
+  app-invoice
+    #invoice-modal.modal.fade(tabindex="-1" role="dialog" data-backdrop="static")
+      .modal-dialog.modal-xl.modal-dialog-scrollable(role="document")
+        .modal-content
+          .modal-header
+            ul#modal-tabs.nav.nav-tabs(role="tablist")
+              li.nav-item
+                a.nav-link.active(type="button" title="Create" data-toggle="tab" href="#add-invoice-collapse" aria-controls="add-invoice-collapse" aria-selected="true")
+                  i.fa.fa-plus
+                  span.ps-2= _x("Create","Create")  
+              li.nav-item
+                a.nav-link.disabled(type="button" title="Edit" data-toggle="tab" href="#edit-invoice-collapse" aria-controls="edit-invoice-collapse" aria-selected="false")
+                  i.fa.fa-pencil
+                  span.ps-2= _x("Edit","Edit")   
+              li.nav-item
+                a.nav-link.disabled(type="button" title="Edit" data-toggle="tab" href="#delete-invoice-collapse" aria-controls="delete-invoice-collapse" aria-selected="false")
+                  i.fa.fa-trash
+                  span.ps-2= _x("Delete","Delete")   
+            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body
+            .tab-content.mt-4
+              #add-invoice-collapse.tab-pane.fade.show.active
+              #edit-invoice-collapse.tab-pane.fade
+              #delete-invoice-collapse.tab-pane.fade
+    .row
+      .col.col-12.col-md-2.col-lg-2
+        nav.nav.nav-pills.flex-column
+          a#new.nav-item.btn.btn-primary(href="#" type="button" data-bs-toggle="modal" data-bs-target="#invoice-modal")
+            i.fa.fa-plus
+            span.ps-2= _x("Add","Add")
+      .col.col-expand
+        .d-flex.flex-column.card.border-light
+          table#invoice.mvh-70

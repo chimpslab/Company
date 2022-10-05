@@ -35,6 +35,12 @@
         --bs-modal-color: rgba(231, 231, 231);
         --bs-modal-bg: rgb(34, 39, 49);
     }
+
+    .card {
+        --bs-body-color: rgb(231, 231, 231);
+        --bs-card-bg: rgb(34, 39, 49);
+    }
+
 }
 
 @import "../../../node_modules/font-awesome/scss/font-awesome";

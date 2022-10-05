@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import _ from "lodash";
 import timezone from "../../data/timezone.json"
-import { Organization, OrganizationDocument } from "../models/Organization";
+import { iOrganization, Organization, OrganizationDocument } from "../models/Organization";
 import { Person } from "../models/Person";
 import logger from "../util/logger";
 import { OrganizationSearchOption } from "../util/search";
@@ -12,7 +12,7 @@ export const manage = (req: Request, res: Response) => {
     })
 }
 
-export const create = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response, next: NextFunction) => {
     console.log("Organization Create Router Working");
     logger.debug(JSON.stringify(req.body))
 
@@ -40,26 +40,57 @@ export const create = async (req: Request, res: Response) => {
         }
     }
 
-
     newOrganization.save((error, document) => {
         if (error) {
             req.flash("errors", "Oups, an error occured");
-            logger.error(error.message);
-            res.status(400);
+            return next();
         }
-        else if (document) {
-            req.flash("success", "Organisation created with success");
-        }
+        req.flash("success", "Organisation created with success");
         res.redirect(req.get("referer"));
     });
 }
 
-export const update = (req: Request, res: Response) => {
-    console.log("Organization Update Router Working");
-    res.end();
+export const update = async (req: Request, res: Response, next: NextFunction) => {
+
+    const orga: iOrganization = {
+        name: req.body.name,
+        legalName: req.body.legalName,
+        telephone: req.body.telephone,
+        languageCode: req.body.languageCode,
+        billing: {
+            country: req.body.billing_country,
+            region: req.body.billing_region,
+            city: req.body.billing_city,
+            postalCode: req.body.billing_postalCode,
+            streetAddress: req.body.billing_address
+        },
+        taxID: req.body.taxid,
+        vatID: req.body.vatid,
+        timezone: req.body.timezone,
+    };
+
+    if (req.body.contact) {
+        const contact = await Person.findById(req.body.contact);
+        if (contact) {
+            orga.contact = contact.id;
+        }
+    }
+    else {
+        orga.contact = undefined;
+    }
+
+    Organization.updateOne({_id: req.body.id}, orga, null, (error, document) => {
+        if (error) {
+            req.flash("errors", "Oups, an error occured");
+            return next();
+        }
+        
+        req.flash("success", "Organisation updated with success");
+        res.redirect(req.get("referer"));
+    });
 }
 
-export const remove = (req: Request, res: Response) => {
+export const remove = (req: Request, res: Response, next: NextFunction) => {
     console.log("Organization Remove Router Working");
     res.end();
 }

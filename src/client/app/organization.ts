@@ -85,10 +85,12 @@ export class PTOrganizationPanel extends HTMLElement {
     });
 
     function refresh(callback?: Function) {
-        console.log("REFRESH")
-        $.get("/organization/read", data => {
-            console.log(data)
-        })
+      $.get("/organization/read", data => {
+        $table_body.empty().append(
+          OrganizationTable(data)
+        );
+        callback(data);
+      })
     }
     function OrganizationForm(data: any) {
 
@@ -111,7 +113,7 @@ export class PTOrganizationPanel extends HTMLElement {
 
       $form.find("[name=billing_address]:first").prop("required", true);
 
-    //   $form.find("[name=timezone]").select_timezone({});
+      //   $form.find("[name=timezone]").select_timezone({});
 
       $form.on("submit", (e) => {
         e.preventDefault();
@@ -128,63 +130,57 @@ export class PTOrganizationPanel extends HTMLElement {
 
       return $container;
     }
-    function OrganizationDelete(data: any) {
-      const $formparent = $("#delete-organization-collapse");
-      const $tab_delete = $modaltabs.find('[aria-controls="delete-organization-collapse"]');
 
-      const template = $("#tmpl-form-delete").html();
-      const $container = $(Mustache.render(template, { ...data }, { addressline: tmpl_addressline }));
-      const $form = $container.find("form");
-      $formparent.empty();
-      $formparent.append($container);
-      $tab_delete.removeClass("disabled");
-
-      $tab_delete.tab("show");
-      $modal.modal("show");
-
-      return $container;
-    }
-    function OrganizationEdit(data: any, $item: JQuery) {
-      $item.find(".edit").on("click", (e) => {
-        e.preventDefault();
-        const $tab = $modaltabs.find('[aria-controls="edit-organization-collapse"]');
-        $tab.removeClass("disabled");
-        $tab.tab("show");
-        const $formparent = $("#edit-organization-collapse");
-        OrganizationForm({ ...data, r: "edit", action: "/organization/update" })
-          .on("changed.organization", () => refresh());
-        $modal.modal("show");
-        $tab.on("hidden.bs.tab", function () {
-          $tab.addClass("disabled");
-        });
-      });
-      $item.find(".delete").click(e => {
-        e.preventDefault();
-        OrganizationDelete(data);
-      });
-    }
-    function OrganizationDetails(data: any, $item: JQuery) {
-      $item.find(".details").popover({
-        content: () => {
-          const tip = $(Mustache.render(tmpl_row_popover, data));
-          return tip[0];
-        }
-      }).on("shown.bs.popover", (e) => {
-
-      });
-    }
-    function OrganizationItem(item: any, i?: number, map?: any) {
-      const orga = Object.assign(item, {
-        index: item.index,
-        logoSmall: item.logoSmall || "/images/LogoSB.png"
-      });
-      const $orga = $(Mustache.render(tmpl_row, orga));
-
-      OrganizationEdit(orga, $orga);
-      OrganizationDetails(orga, $orga);
-      return $orga;
-    }
     function OrganizationTable(datas: any) {
+      function OrganizationDelete(data: any) {
+
+        const template = $("#tmpl-form-delete").html();
+        const $container = $(Mustache.render(template, { ...data }, { addressline: tmpl_addressline }));
+        $tab_remove.removeClass("disabled");
+
+        $tab_remove.tab("show");
+        $modal.modal("show");
+
+        return $container;
+      }
+      function OrganizationEdit(data: any, $item: JQuery) {
+        $item.find(".edit").on("click", (e) => {
+          e.preventDefault();
+          $tab_edit.removeClass("disabled");
+          $tab_edit.tab("show");
+          $collapse_edit.empty().append(
+            OrganizationForm({ ...data, r: "edit", action: "/organization/update" })
+              .on("changed.organization", () => refresh())
+          )
+          $modal.modal("show");
+          $tab_edit.on("hidden.bs.tab", function () {
+            $tab_edit.addClass("disabled");
+          });
+        });
+        $item.find(".delete").click(e => {
+          e.preventDefault();
+          $collapse_remove.empty().append(
+            OrganizationDelete(data)
+          )
+        });
+      }
+      function OrganizationDetails(data: any, $item: JQuery) {
+        $item.find(".details").popover({
+          content: () => {
+            const tip = $(Mustache.render(tmpl_row_popover, data));
+            return tip[0];
+          }
+        }).on("shown.bs.popover", (e) => {
+
+        });
+      }
+      function OrganizationItem(item: any, i?: number, map?: any) {
+        const $orga = $(Mustache.render(tmpl_row, item));
+        OrganizationEdit(item, $orga);
+        OrganizationDetails(item, $orga);
+        return $orga;
+      }
+
       const rowData = _.map(datas.items, (item: any, i) => {
         return OrganizationItem({
           ...item,
@@ -195,7 +191,7 @@ export class PTOrganizationPanel extends HTMLElement {
       $table.find("tbody").html("").append(rowData);
       return $table;
     }
-    
+
     refresh();
 
   }

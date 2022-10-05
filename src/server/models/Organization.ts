@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { IPerson } from "./Person";
-import { ThingDocument, ThingSchema } from "./Thing";
+import { iThing, ThingDocument, ThingSchema } from "./Thing";
 
 export interface iAddress {
     country: string;
@@ -13,17 +13,16 @@ export interface iAddress {
 export interface iBillingAddress extends iAddress{
 }
 
-export interface IOrganization {
-    languageCode: string;
+export interface iOrganization extends iThing{
     legalName: string,
     telephone: string;
-    contact: string,
+    contact?: string,
     billing: iBillingAddress,
     taxID: String,
     vatID: String,
-    parentOrganization: IOrganization,
+    parentOrganization?: iOrganization,
     timezone: string,
-    tags: [string],
+    languageCode: string,
 }
 
 const OrganizationShema = new mongoose.Schema({
@@ -35,7 +34,7 @@ const OrganizationShema = new mongoose.Schema({
     taxID: {type: String, require: true},
     vatID: {type: String, require: true},
     timezone: String,
-    tags: [String],
+    languageCode: String,
 });
 OrganizationShema.add(ThingSchema)
 
@@ -47,7 +46,7 @@ OrganizationShema.static("searchPartial", function(query: string, callback: mong
         ]
     }, callback);
 });
-export type OrganizationDocument = IOrganization & ThingDocument & {};
+export type OrganizationDocument = iOrganization & ThingDocument & {};
 export interface IOrganizationModel extends mongoose.Model<OrganizationDocument> {
     searchPartial: (term: string, callback: mongoose.Callback) => void;
 }

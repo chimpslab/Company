@@ -1,3 +1,7 @@
 extends ./layout
 block content
-    h5 HELLO from CHIMPS.lab company !
+    .position-absolute.top-50.start-50.translate-middle
+        h5 HELLO from CHIMPS.lab !
+        d.flex 
+            a.btn.btn-link(href="/invoice" disabled) Invoice
+            a.btn.btn-link(href="/organization") Organization

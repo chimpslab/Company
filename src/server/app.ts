@@ -109,6 +109,9 @@ app.use(AccountRouter);
 import OrganizationRouter from "./routes/organization"
 app.use(OrganizationRouter);
 
+import InvoiceRouter from "./routes/invoice"
+app.use(InvoiceRouter);
+
 app.get("/system/timezone", (req: Request, res: Response) => { return res.send(require("./data/timezone.json")); });
 
 
