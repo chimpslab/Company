@@ -3,6 +3,55 @@
 extends ../layout
 
 block header 
+  script#tmpl-invoice(type="x-tmpl-markdown" data-path=invoicePath data-view=viewPath).
+    #{template}
+  script#tmpl-table(type="x-tmpl-mustache")
+    table.table.table-sm.table-hover.table-striped
+      thead
+        tr
+          th(scope="col")
+            span.d-none #
+          th(scope="col") 
+          th(scope="col") 
+          th(scope="col")= _x("Name","Name")
+          th(scope="col")
+            span.d-none.d-md-block= _x("Leave a comment...","comment the event")
+          th(scope="col") 
+            span.d-none.d-md-block= _x("Phone","Phone")
+          
+          th(scope="col") 
+            i.fa.fa-wrench.d-none.d-md-block
+      tbody
+  script#tmpl-row(type="x-tmpl-mustache")
+    tr
+      th(scope="row") 
+        .d-none
+          .d-flex.justify-content-end
+            span {{index}} 
+      td
+        .d-none.d-md-block
+          a.btn.btn-link.details.p-0(href="#" tabindex="0" data-html="true" role="button" data-toggle="popover" data-trigger="focus")
+            .fa.fa-search
+      td
+        img.logo(src="{{image}}" width="32" height="32")
+      td {{name}}
+      td
+        span.d-none.d-md-block {{comment}}
+      td 
+        a.d-none.d-lg-block(href="#" clipboard="+{{telephone}}")
+          label.text-monospace {{#telephone}}+{{telephone}}{{/telephone}}{{^telephone}}-{{/telephone}}
+      
+      td 
+        a.p-2.btn.btn-link.fa.fa-pencil.edit(href="#" data-id="{{_id}}")
+        a.p-2.btn.btn-link.fa.fa-remove.delete(href="#" data-id="{{_id}}")
+
+  script#tmpl-invoice(type="x-tmpl-mustace")
+    .row
+      .col
+        .card
+          .card-header
+            h6 CHIMPS.lab 
+          .card-body
 
 block content 
   app-invoice
@@ -19,16 +68,11 @@ block content
                 a.nav-link.disabled(type="button" title="Edit" data-toggle="tab" href="#edit-invoice-collapse" aria-controls="edit-invoice-collapse" aria-selected="false")
                   i.fa.fa-pencil
                   span.ps-2= _x("Edit","Edit")   
-              li.nav-item
-                a.nav-link.disabled(type="button" title="Edit" data-toggle="tab" href="#delete-invoice-collapse" aria-controls="delete-invoice-collapse" aria-selected="false")
-                  i.fa.fa-trash
-                  span.ps-2= _x("Delete","Delete")   
             button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
           .modal-body
             .tab-content.mt-4
               #add-invoice-collapse.tab-pane.fade.show.active
               #edit-invoice-collapse.tab-pane.fade
-              #delete-invoice-collapse.tab-pane.fade
     .row
       .col.col-12.col-md-2.col-lg-2
         nav.nav.nav-pills.flex-column
@@ -37,4 +81,9 @@ block content
             span.ps-2= _x("Add","Add")
       .col.col-expand
         .d-flex.flex-column.card.border-light
-          table#invoice.mvh-70
+          #invoice.mvh-70
+block footer         
+  script.
+    // hello from ALPINE
+    Alpine.start()
+    customElements.define("app-invoice", require("app").widget.PTInvoicePanel)

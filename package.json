@@ -51,6 +51,7 @@
     "passport-auth-token": "^1.0.1",
     "passport-local": "^1.0.0",
     "pug": "^3.0.2",
+    "showdown": "^2.1.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

@@ -1,6 +1,4 @@
 extends ../layout
-include ../mixins/modal
-include ../mixins/components/device
 
 block content
   
@@ -29,57 +27,8 @@ block content
           i= _x("Update Profile", "Button Update Profile")
           
 
-  .page-header
-    h3 Change Password
 
-  form.form-horizontal(action='/account/password', method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label.col-sm-3.control-label(for='password')= _x("New Password", "New Password") 
-      .col-sm-7
-        input.form-control(type='password', name='password', id='password')
-    .form-group
-      label.col-sm-3.control-label(for='confirmPassword')= _x("Confirm Password", "Confirm Password") 
-      .col-sm-7
-        input.form-control(type='password', name='confirmPassword', id='confirmPassword')
-    .form-group
-      .col-sm-offset-3.col-sm-4
-        button.btn.btn-primary(type='submit')
-          i.fa.fa-lock
-          i= _x("Change Password", "Button change Password")
-
-  .page-header
-    h3 Tokens
-  .row
-    .col
-      .col.ml-4.col-100
-        button.btn.btn-primary(id="getjwt")
-          i.fa.fa-plus
-          i= _x("Request Access Token", "Button request JWT Token")
-        <a href="#" id="jwtresult" class=" card card-body fade mt-3" clipboard >
-          | Praeterea iter est quasdam res quas ex communi.
-        </a>
-    .col.col-12
-      table.table
-        thead 
-          tr
-            th Kind
-            th Expire
-            th Value
-            th Remove
-        tbody
-          each token in _.filter(user.tokens, k => k.kind == "JWT")
-            tr
-              td= token.kind
-              td= moment(token.expire).format("lll")
-              td *************
-              td 
-                button.btn.btn-link.text-danger(data-action='revoke' data-kind=`${token.kind}` data-salt=`${token.userdata.salt}`) 
-                  i.fa.fa-trash
-  .page-header 
-    h3= _x("Your Devices", "Account List of devices")
-    #device-container.card-columns
-
+  
   .page-header
     h3= _x("Delete Account", "Delete Account") 
 
@@ -104,41 +53,5 @@ block content
 
 
 
-    
-  script.
-    
-    jQuery(document).ready( $ => {
-      const _ = require("lodash");
-      const mustache = require("mustache");
-      const app = require("app");
-      $("#getjwt").click((e) => {
-        const $LblJWTResult = $("#jwtresult")[0];
-
-        $.post("/auth/token/JWT", (e) => {
-          console.log(e)
-          const $LblJWTResult = $("#jwtresult");
-          $LblJWTResult.html(e);
-          $LblJWTResult.addClass("show");
-        })
-      })
-
-      $("[data-action=revoke").click(function(event) {
-        const salt = this.dataset.salt;
-        const kind = this.dataset.kind;
-        if(salt) {
-          $.get(`/auth/unlink/${kind}?salt=${salt}`, (e) => {
-            location.reload();
-          })
-        }
-      })
-
-      $("[clipboard]").clipboard();
-
-
-      
-    })
-
 block header
-
-  +device-manager()
   

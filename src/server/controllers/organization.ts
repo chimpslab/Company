@@ -20,6 +20,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
         name: req.body.name,
         legalName: req.body.legalName,
         telephone: req.body.telephone,
+        mail: req.body.mail,
         languageCode: req.body.languageCode,
         billing: {
             country: req.body.billing_country,
@@ -56,6 +57,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         name: req.body.name,
         legalName: req.body.legalName,
         telephone: req.body.telephone,
+        mail: req.body.mail,
         languageCode: req.body.languageCode,
         billing: {
             country: req.body.billing_country,

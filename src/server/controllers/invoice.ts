@@ -1,9 +1,22 @@
 import { NextFunction, Request, Response } from "express";
 import { iInvoice, Invoice } from "../models/Invoice";
+import fs from "fs"
+import path from "path"
+
+const viewPath = path.join(process.env.PWD, "views");
+const invoicePath = path.join(viewPath, "markdown/invoice.md")
 
 export const manage = (req: Request, res: Response) => {
+    let template = "";
+
+    
+    if (fs.existsSync(invoicePath)) {
+        template = fs.readFileSync(invoicePath).toString()
+    }
     res.render("manage/invoice", {
-        title: "Invoice"
+        title: "Invoice",
+        template,
+        viewPath, invoicePath
     })
 }
 

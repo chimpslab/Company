@@ -16,6 +16,7 @@ export interface iBillingAddress extends iAddress{
 export interface iOrganization extends iThing{
     legalName: string,
     telephone: string;
+    mail?: string;
     contact?: string,
     billing: iBillingAddress,
     taxID: String,
@@ -28,6 +29,7 @@ export interface iOrganization extends iThing{
 const OrganizationShema = new mongoose.Schema({
     legalName: {type: String},
     telephone: {type: String},
+    mail: {type: String},
     contact: {type: mongoose.Schema.Types.ObjectId, ref: "Person"},
     address: {type: Object},
     billing: {type: Object},

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import "bootstrap";
 import Mustache from "mustache";
-import { Flash } from "../core/flash";
+import Flash from "../core/flash";
 
 export const InputSelectOrganization = function (options: any) {
   // let organizations: Array<any> = [];

@@ -89,16 +89,20 @@ block header
                     i.fa.fa-upload
                     small.ps-2.form-text= _x("Upload Image","Upload Image")  
           .form-group.col-md-6
-            label(for=`{{r}}_name`)= _x("Name","Name")  
+            label(for=`{{r}}_name`)= _x("Name","organization Name")  
             input.form-control(type='text', value="{{name}}" name='name', id=`{{r}}_name` placeholder="Name" required)
           .form-group.col-md-6
-            label(for=`{{r}}_legalname`)= _x("Legal Name","Short Name")  
+            label(for=`{{r}}_legalname`)= _x("Legal Name","organization Legal Name")  
             input.form-control(type='text', value="{{legalName}}" name='legalName', id=`{{r}}_legalname`  placeholder="Legal Name" required)
           .form-group.col-md-6
-            label(for=`{{r}}_phone`)= _x("Phone","Phone")  
+            label(for=`{{r}}_phone`)= _x("Phone","organization Phone")  
             input.form-control(type='text', value="{{telephone}}" name='telephone', id=`{{r}}_phone` placeholder="32484XXXXXX" pattern="[0-9]+")
           .form-group.col-md-6
-            label(for=`{{r}}_language`)= _x("Language","Language")  
+          .form-group.col-md-6
+            label(for=`{{r}}_mail`)= _x("Mail","organization Mail")  
+            input.form-control(type='email', value="{{mail}}" name='mail', id=`{{r}}_mail` placeholder="you@mail.com")
+          .form-group.col-md-6
+            label(for=`{{r}}_language`)= _x("Language","organization Language")  
             input.form-control(type='text', value="{{languageCode}}" name='languageCode', id=`{{r}}_language` placeholder="be-fr")
 
         .row
@@ -111,31 +115,31 @@ block header
           .col.col-12 
             h5= _x("Contact detail","Contact detail") 
           .form-group.col-md-12
-            label(for=`{{r}}_person`)= _x("Person","Person contact")  
+            label(for=`{{r}}_person`)= _x("Person","Organization Person contact")  
             input.form-control(type='text', value="{{contact.person}}" name='contact', id=`{{r}}_person` placeholder="Someone in charge")
         .row
           .col.col-12 
             h5= _x("Billing Information","Billing Information")
           
           .form-group.col-md-6
-            label(for=`{{r}}_taxid`)= _x("Tax ID","Tax ID")   
+            label(for=`{{r}}_taxid`)= _x("Tax ID","Organization Tax ID")   
             input.form-control(type='text', value="{{taxID}}" name='taxid', id=`{{r}}_taxid` placeholder="")
           .form-group.col-md-6
-            label(for=`{{r}}_vatID`)= _x("Vat ID","Vat ID")   
+            label(for=`{{r}}_vatID`)= _x("Vat ID","Organization Vat ID")   
             input.form-control(type='text', value="{{vatID}}" name='vatid', id=`{{r}}_vatid` placeholder="")
         
           
           .form-group.col-md-6
-            label(for=`{{r}}_billing_country`)= _x("Country","Country")   
+            label(for=`{{r}}_billing_country`)= _x("Country","Organization Country")   
             input.form-control(type='text', value="{{billing.country}}" name='billing_country', id=`{{r}}_billing_country` placeholder="Belgium" required)
           .form-group.col-md-6
-            label(for=`{{r}}_billing_region`)= _x("Region","Region")   
+            label(for=`{{r}}_billing_region`)= _x("Region","Organization Region")   
             input.form-control(type='text', value="{{billing.region}}" name='billing_region', id=`{{r}}_billing_region` placeholder="Brussel" required)
           .form-group.col-md-6
-            label(for=`{{r}}_billing_city`)= _x("City","City")   
+            label(for=`{{r}}_billing_city`)= _x("City","Organization City")   
             input.form-control(type='text', value="{{billing.city}}" name='billing_city', id=`{{r}}_billing_city` placeholder="Molenbeek-Sain-Jean" required)
           .form-group.col-md-6
-            label(for=`{{r}}_billing_postal_code`)= _x("Postal Code","Postal Code")   
+            label(for=`{{r}}_billing_postal_code`)= _x("Postal Code","Organization Postal Code")   
             input.form-control(type='text', value="{{billing.postalCode}}" name='billing_postalCode', id=`{{r}}_billing_zip` placeholder="1080" required)
           |{{#billing.streetAddress}} 
           |  {{ > addressline}}
@@ -144,19 +148,19 @@ block header
           .col.col-12 
             h5= _x("Advanced","Advanced") 
           .form-group.col-md-6
-            label(for=`{{r}}_timezone`)= _x("Time Zone","Time Zone")  
+            label(for=`{{r}}_timezone`)= _x("Time Zone","Organization Time Zone")  
             input.form-control(list="timezones" value="{{timezone}}" name='timezone', id=`{{r}}_timezone` placeholder= _x('Select a Time Zone...','Select a Time Zone...'))
             datalist#timezones
               for tz in timezone
                 option(value=`${tz.text}`)
         .row
           .form-group.col-12
-            label(for=`{{r}}_description`)= _x("Leave a comment...","comment the event")  
-            textarea.w-100.form-control.md-textarea(name='comment' id=`{{r}}_description`, rows="3"  placeholder=_x("Leave a comment...","comment the event"))
+            label(for=`{{r}}_description`)= _x("Leave a description...","Organization description")  
+            textarea.w-100.form-control.md-textarea(name='description' id=`{{r}}_description`, rows="3"  placeholder=_x("Leave a comment...","comment the event"))
               | {{description}} 
         .form-group.row.d-flex.justify-content-end.mx-1
           button.btn(type='reset')= _x("Reset","Reset")  
-          button.btn.btn-primary.ml-1(type='submit')= _x("Send","Send")   
+          button.btn.btn-primary.ml-1(type='submit')= _x("Send","Organization Send")   
   script#tmpl-form-delete(type="x-tmpl-mustache")
     .container
       form.form-horizontal(action="/organization/remove", method='POST', autocomplete="off")
@@ -203,7 +207,7 @@ block content
             span.ps-2= _x("Add","Add")
       .col.col-expand
         .d-flex.flex-column.card.border-light
-          table#organization.mvh-70
+          #organization.mvh-70
 block footer         
   script.
     // hello from ALPINE

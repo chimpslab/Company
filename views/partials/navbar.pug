@@ -1,64 +1,25 @@
 if user
   ul.nav.navbar.navbar-expand-lg
     .navbar-header
-      button.navbar-toggler.mr-2(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      button.navbar-toggler.mr-2(type='button', data-bs-toggle='collapse', data-bs-target='.navbar-collapse')
         span.navbar-toggler-icon
       a.navbar-brand.ps-3(href='/')
         | Company
-    ul.nav.navbar-nav.ms-auto
-      li.nav-item
-        .btn-group
-          .dropdown
-            a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
-              span= _x("Views", "Nav Menu Dropdown Views")
-            .dropdown-menu
-              a.dropdown-item(href='/')= _x("Home", "Nav Menu Views Home")
-              if user && user.beta
-                a.dropdown-item(href='/manage/calendar', class=(title == 'Manage Calendar') ? 'active' : undefined)= _x("Calendar", "Nav Menu Views Calendar")
-                  .badge beta
-              if user && custompages && custompages.length
-                .dropdown-divider
-                
-      if user_can(user, "manage")
-        li.nav-item.dropdown
-          a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
-            span= _x("Manage", "Nav Menu Dropdown Manage")
-          .dropdown-menu
-            
-            a.dropdown-item(href='/manage/replacement', class=(title == 'Manage Replacement') ? 'active' : undefined)= _x("Replacements", "Nav Menu Replacements")
-            a.dropdown-item(href='/manage/dismissal', class=(title == 'Manage Dismissal') ? 'active' : undefined)= _x("Dismissals", "Nav Menu Dismissals")
-            a.dropdown-item(href='/manage/activity', class=(title == 'Manage Activity') ? 'active' : undefined)= _x("Activities", "Nav Menu Activities")
-            a.dropdown-item(href='/manage/hint', class=(title == 'Manage News') ? 'active' : undefined)= _x("News", "Nav Menu News")
-            if user_can(user, "manage_organization")
-              .dropdown-divider
-              a.dropdown-item(href='/manage/teacher', class=(title == 'Manage Teacher') ? 'active' : undefined)= _x("Teachers", "Nav Menu Teachers")
-              a.dropdown-item(href='/manage/contact', class=(title == 'Manage Contact') ? 'active' : undefined)= _x("Contacts", "Nav Menu Contacts")
-              a.dropdown-item(href='/manage/room', class=(title == 'Manage Rooms') ? 'active' : undefined)= _x("Rooms", "Nav Menu Rooms")
-              a.dropdown-item(href='/manage/organisation', class=(title == 'Manage Schools') ? 'active' : undefined)= _x("Schools", "Nav Menu Schools")
-              .dropdown-divider
-              a.dropdown-item(href='/manage/pages', class=(title == 'Manage Pages') ? 'active' : undefined)= _x("Pages", "Nav Menu Pages")
-              if user_can(user, "manage_other_devices")
-                a.dropdown-item(href='/system/devices')= _x("Devices", "Nav Menu Devices") 
+    ul.nav.navbar-nav.ms-auto.ms-auto.me-5
+      a.nav-item.nav-link(href='/invoice', class=(title == 'Invoice') ? 'active' : undefined)= _x("Invoice", "Nav Menu Invoice")
+      a.nav-item.nav-link(href='/organization', class=(title == 'Organization') ? 'active' : undefined)= _x("Organization", "Nav Menu Organization")
+      a.nav-item.nav-link(href='/contact', class=(title == 'Contact') ? 'active' : undefined)
+        i.fa.fa-bug
+      a.nav-item.nav-link(href='/options', class=(title == 'Options') ? 'active' : undefined)
+        i.fa.fa-cog
+      li.nav-item.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
+        a.nav-link.dropdown-toggle(href='#', data-bs-toggle='dropdown')
+          span.ms-2= user.profile.name || user.email || user.id
+          i.caret
+        .dropdown-menu
+          a.dropdown-item(href='/account')= _x("My Account", "Nav Menu My Account") 
+          a.dropdown-item(href='/logout')= _x("Logout", "Nav Menu Logout") 
 
-        
-    ul.navbar-nav
-        li.nav-item.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
-          a.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
-            if user.profile.picture
-              img.rounded(src=user.profile.picture, alt=(user.profile.name || user.email || user.id))
-            else
-              img.rounded(src=user.mii(26), alt=(user.profile.name || user.email || user.id))
-            span= user.profile.name || user.email || user.id
-            i.caret
-          .dropdown-menu
-            a.dropdown-item(href='/account')= _x("My Account", "Nav Menu My Account") 
-            a.dropdown-item(href='/logout')= _x("Logout", "Nav Menu Logout") 
-        .d-flex
-            a.nav-item.nav-link(href='/contact', class=(title == 'Contact') ? 'active' : undefined)
-              i.fa.fa-bug
-            a.nav-item.nav-link(href='/options', class=(title == 'Options') ? 'active' : undefined)
-              i.fa.fa-cog
-  
     
     //-const plugins = app.get("plugins");
     
