@@ -1,25 +1,20 @@
-
+{{#provider.image}}
 ![{{provider.legalName}} image]({{provider.image}})
-![image](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7l
-jmRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAY
-SURBVBhXYwCC/2AAZYEoOAMs8Z+BgQEAXdcR7/Q1gssAAAAASUVORK5CYII=)
+{{/provider.image}}
 
 # Invoice
 
-<div class="header" markdown>
 | | | | |
 | --- | --- | --- | --- |
 | {{provider.legalName}}     |  | Date | {{invoice.date}} | | 
 | {{provider.streetAddress}} |  | Invoice# | {{invoice.uidd }} | | 
 | {{provider.countryCode}}-{{provider.postalCode}} {{provider.city}} |  | | | 
-| VAT: {{provider.vatID}} | | Client | {{customer.legalName}} |
+| VAT: {{provider.vatID}} | | Client | <a href="#" customer="{{customer.legalName}}"/> |
 | {{provider.mail}} |  |  | {{customer.streetAddress}} |
 |  |  |  | {{customer.countryCode}}-{{customer.postalCode}} {{customer.city}} |
 |  |  |  | VAT: {{customer.vatID}} |
-</div>
---- 
 
-<div class="invoice" markdown>
+--- 
 
 ##### {{invoice.description}} 
 
@@ -33,8 +28,6 @@ SURBVBhXYwCC/2AAZYEoOAMs8Z+BgQEAXdcR7/Q1gssAAAAASUVORK5CYII=)
 |  |  | VAT Rate | {{invoice.vatrate}} |
 |  |  | VAT  | {{invoice.vat}} |
 |  |  | **Total** | **{{invoice.total}}** |
-
-</div>
 
 --- 
 
