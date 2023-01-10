@@ -12,6 +12,7 @@ const main = browserify({debug: minify})
     .require("./src/client/main.ts", {expose:"app"})
     .require("bootstrap")
     .require("alpinejs", {expose:"alpinejs"})
+    // .require("showdown", )
     .plugin("tsify", { target: 'es6' })
 
 if (minify)

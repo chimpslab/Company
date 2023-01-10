@@ -4,7 +4,7 @@ extends ../layout
 
 block header 
   script#tmpl-invoice(type="x-tmpl-markdown" data-path=invoicePath data-view=viewPath).
-    #{template}
+    !{template}
   script#tmpl-table(type="x-tmpl-mustache")
     table.table.table-sm.table-hover.table-striped
       thead
@@ -44,14 +44,19 @@ block header
       td 
         a.p-2.btn.btn-link.fa.fa-pencil.edit(href="#" data-id="{{_id}}")
         a.p-2.btn.btn-link.fa.fa-remove.delete(href="#" data-id="{{_id}}")
-
-  script#tmpl-invoice(type="x-tmpl-mustace")
-    .row
-      .col
-        .card
-          .card-header
-            h6 CHIMPS.lab 
-          .card-body
+ 
+  script#tmpl-form(type="x-tmpl-mustache")
+    form(method="POST")
+      .form-group
+          label(for="customer")= _x("Customer", "Enter the customer")
+          input.form-control(type='text', name='customer', placeholder='X', list="organizationlist" autofocus, required)
+          <datalist id="organizationlist">
+            <option value="San Francisco">
+            <option value="New York">
+            <option value="Seattle">
+            <option value="Los Angeles">
+            <option value="Chicago">
+          </datalist>
 
 block content 
   app-invoice
@@ -73,6 +78,7 @@ block content
             .tab-content.mt-4
               #add-invoice-collapse.tab-pane.fade.show.active
               #edit-invoice-collapse.tab-pane.fade
+            #preview
     .row
       .col.col-12.col-md-2.col-lg-2
         nav.nav.nav-pills.flex-column

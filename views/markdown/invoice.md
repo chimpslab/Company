@@ -1,8 +1,10 @@
 
 ![{{provider.legalName}} image]({{provider.image}})
+![image](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAIAAAA7l
+jmRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAY
+SURBVBhXYwCC/2AAZYEoOAMs8Z+BgQEAXdcR7/Q1gssAAAAASUVORK5CYII=)
 
-**Invoice**
-
+# Invoice
 | | | | |
 | --- | --- | --- | --- |
 | {{provider.legalName}}     |  | Date | {{invoice.date}} | | 
@@ -26,10 +28,10 @@
 |  |  | VAT  | {{vat}} {{currency}} |
 |  |  | Total | {{total}} {{currency}} |
 
-<div class="position-relative w-100">
-    <span class="start-50 translate-50">
+<div class="w-100">
+    <div class="d-flex justify-content-center">
         Thank you from your friends at {{provider.name}}
-    </span>
+    </div>
 </div>
 
 {{generalconditions}}

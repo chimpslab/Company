@@ -10,6 +10,7 @@
     "build-sass": "node sassify.js",
     "copyassets": "node copyassets.js",
     "start": "node dist/server/server.js",
+    "repack": "docker build -t company:0.0.1 . && docker-compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -51,7 +52,6 @@
     "passport-auth-token": "^1.0.1",
     "passport-local": "^1.0.0",
     "pug": "^3.0.2",
-    "showdown": "^2.1.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {
@@ -74,6 +74,7 @@
     "@types/mustache": "^4.2.1",
     "@types/passport-auth-token": "^1.0.1",
     "@types/passport-local": "^1.0.34",
+    "@types/showdown": "^2.0.0",
     "alpinejs": "^3.10.3",
     "browserify": "^17.0.0",
     "font-awesome": "^4.7.0",
@@ -81,6 +82,7 @@
     "pdfkit": "^0.13.0",
     "sass": "^1.55.0",
     "shelljs": "^0.8.5",
+    "showdown": "^2.1.0",
     "tsify": "^5.0.4",
     "typescript": "^4.8.4"
   }

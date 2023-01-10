@@ -1,7 +1,7 @@
 import _ from "lodash";
 import Mustache from "mustache";
 import Flash from "../core/flash";
-
+import showdown from "showdown";
 
 
 export class PTInvoicePanel extends HTMLElement {
@@ -15,6 +15,8 @@ export class PTInvoicePanel extends HTMLElement {
       const tmpl_row = $("#tmpl-row").html();
       const tmpl_row_popover = $("#tmpl-row-popover").html();
       const tmpl_table_nav = $("#tmpl-table-nav").html();
+
+      const tmpl_invoice = $("#tmpl-invoice").html();
   
       const $btn_new = $("#new");
       const $modal = $("#invoice-modal.modal");
@@ -35,11 +37,47 @@ export class PTInvoicePanel extends HTMLElement {
       const $collapse_add = $modal.find("#add-invoice-collapse");
       const $collapse_edit = $modal.find("#edit-invoice-collapse");
       const $collapse_remove = $modal.find("#delete-invoice-collapse");
-  
-      $tab_add.on("show.bs.tab", () => {
-        const $form = InvoiceForm({ action: "/invoice/create", r: "create" })
+
+      const view = {
+        customer: "",
+      }
+
+      function ondatachange() {
+        const $form = InvoiceForm({ action: "/invoice/create", r: "create"}, view )
         $form.on("changed.invoice", () => refresh());
+        $collapse_add.html("");
         $collapse_add.append($form);
+        $form.on("changed", () => {
+          ondatachange();
+        })
+        previewInvoice();
+      }
+
+      function previewInvoice() {
+        const $preview = $("#preview");
+        if ($preview) {
+          const m = Mustache.render(tmpl_invoice, view);
+
+          var myext = function () {
+            var myext1 = {
+              type: 'output',
+              regex: /<table>/g,
+              replace: '<table class="table  table-borderless">'
+            };
+
+            return [myext1];
+          }
+          const converter = new showdown.Converter({
+            tables: true,
+            extensions: myext()
+          });
+          let h = converter.makeHtml(m);
+          $preview.html(h)
+        }
+      }
+
+      $tab_add.on("show.bs.tab", () => {
+        ondatachange();
       });
       $btn_new.on("click", () => {
         $tab_add.tab("show");
@@ -54,7 +92,7 @@ export class PTInvoicePanel extends HTMLElement {
           callback(data);
         })
       }
-      function InvoiceForm(data: any) {
+      function InvoiceForm(data: any, view: any) {
   
         if (_.isObject(data.billing)) {
           console.log(data.billing);
@@ -70,7 +108,7 @@ export class PTInvoicePanel extends HTMLElement {
           };
         }
   
-        const $container = $(Mustache.render(tmpl_form, { ...data }, { addressline: tmpl_addressline }));
+        const $container = $(Mustache.render(tmpl_form, { ...data,...view }, { addressline: tmpl_addressline }));
         const $form = $container.find("form");
   
         $form.find("[name=billing_address]:first").prop("required", true);
@@ -110,10 +148,10 @@ export class PTInvoicePanel extends HTMLElement {
             e.preventDefault();
             $tab_edit.removeClass("disabled");
             $tab_edit.tab("show");
-            $collapse_edit.empty().append(
-              InvoiceForm({ ...data, r: "edit", action: "/invoice/update" })
-                .on("changed.invoice", () => refresh())
-            )
+
+            const $form = InvoiceForm({ r: "edit", action: "/invoice/update" }, data);
+            $form.on("changed.invoice", () => refresh())
+            $collapse_edit.empty().append($form);
             $modal.modal("show");
             $tab_edit.on("hidden.bs.tab", function () {
               $tab_edit.addClass("disabled");
