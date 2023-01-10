@@ -2,7 +2,7 @@ import _ from "lodash";
 import Mustache from "mustache";
 import Flash from "../core/flash";
 import showdown from "showdown";
-
+import converter from "../core/converter";
 
 export class PTInvoicePanel extends HTMLElement {
 
@@ -39,7 +39,46 @@ export class PTInvoicePanel extends HTMLElement {
       const $collapse_remove = $modal.find("#delete-invoice-collapse");
 
       const view = {
-        customer: "",
+        customer: { 
+          name: "DREAMCLIENT",
+          legalName: "DREAMCLIENT",
+          streetAddress: "Place Georges-Pompidou",
+          countryCode: "FR",
+          postalCode: "75004",
+          city: "PARIS",
+          vatID: "FR4545454545"
+        },
+        provider: {
+          name: "DREAMPROVIDER",
+          legalName: "DREAMPROVIDER",
+          streetAddress: "Lovely str.15",
+          countryCode: "BE",
+          postalCode: "1080",
+          city: "BRUXELLES",
+          vatID: "BE4545454545"
+        },
+        invoice: {
+          date: new Date().toDateString(),
+          uidd: `${new Date().getFullYear()}123`,
+          description: "A invoice description",
+          items: [
+            {
+              id: "modem56k",
+              description: "modem 56k",
+              price: converter.currency(1, "€"),
+              amount: 1,
+              sub: converter.currency(1, "€"),
+              currency: "€"
+            }
+          ],
+          subtotal: converter.currency(1, "€"),
+          vatrate: converter.percent(21),
+          vat: converter.currency(1/100*21, "€"),
+          currency: "€",
+          total: converter.currency(1+1/100*21, "€")
+        },
+        generalconditions: "",
+        specialconditions: [""],
       }
 
       function ondatachange() {

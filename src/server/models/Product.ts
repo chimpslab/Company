@@ -12,4 +12,4 @@ export const ProductSchema = new mongoose.Schema({
 }, {timestamps: true});
 ProductSchema.add(ThingSchema)
 
-export const Invoice = mongoose.model<ProductDocument>("Product", ProductSchema );
+export const Product = mongoose.model<ProductDocument>("Product", ProductSchema );

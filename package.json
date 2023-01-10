@@ -10,6 +10,7 @@
     "build-sass": "node sassify.js",
     "copyassets": "node copyassets.js",
     "start": "node dist/server/server.js",
+    "buildpack": "npm run build && npm run repack",
     "repack": "docker build -t company:0.0.1 . && docker-compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

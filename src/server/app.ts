@@ -107,10 +107,13 @@ import AccountRouter from "./routes/account"
 app.use(AccountRouter);
 
 import OrganizationRouter from "./routes/organization"
-app.use(OrganizationRouter);
+app.use("/organization", OrganizationRouter);
 
 import InvoiceRouter from "./routes/invoice"
-app.use(InvoiceRouter);
+app.use("/invoice", InvoiceRouter);
+
+import ProductRouter from "./routes/product"
+app.use("/product", ProductRouter);
 
 app.get("/system/timezone", (req: Request, res: Response) => { return res.send(require("./data/timezone.json")); });
 

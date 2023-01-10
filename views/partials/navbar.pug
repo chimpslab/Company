@@ -1,25 +1,32 @@
 if user
-  ul.nav.navbar.navbar-expand-lg
-    .navbar-header
-      button.navbar-toggler.mr-2(type='button', data-bs-toggle='collapse', data-bs-target='.navbar-collapse')
-        span.navbar-toggler-icon
+  nav.navbar.navbar-expand-lg
+    .container-fluid
       a.navbar-brand.ps-3(href='/')
         | Company
-    ul.nav.navbar-nav.ms-auto.ms-auto.me-5
-      a.nav-item.nav-link(href='/invoice', class=(title == 'Invoice') ? 'active' : undefined)= _x("Invoice", "Nav Menu Invoice")
-      a.nav-item.nav-link(href='/organization', class=(title == 'Organization') ? 'active' : undefined)= _x("Organization", "Nav Menu Organization")
-      a.nav-item.nav-link(href='/contact', class=(title == 'Contact') ? 'active' : undefined)
-        i.fa.fa-bug
-      a.nav-item.nav-link(href='/options', class=(title == 'Options') ? 'active' : undefined)
-        i.fa.fa-cog
-      li.nav-item.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
-        a.nav-link.dropdown-toggle(href='#', data-bs-toggle='dropdown')
-          span.ms-2= user.profile.name || user.email || user.id
-          i.caret
-        .dropdown-menu
-          a.dropdown-item(href='/account')= _x("My Account", "Nav Menu My Account") 
-          a.dropdown-item(href='/logout')= _x("Logout", "Nav Menu Logout") 
+      button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navtoggle' aria-expanded="false" aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+    #navtoggle.collapse.navbar-collapse
+      ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        li.nav-item
+          a.nav-link(href='/invoice', class=(title == 'Invoice') ? 'active' : undefined)= _x("Invoice", "Nav Menu Invoice")
+        li.nav-item
+          a.nav-link(href='/organization', class=(title == 'Organization') ? 'active' : undefined)= _x("Organization", "Nav Menu Organization")
+        li.nav-item
+          a.nav-link(href='/product', class=(title == 'Product') ? 'active' : undefined)= _x("Product", "Nav Menu Product")
+        li.nav-item
+          a.nav-link(href='/contact', class=(title == 'Contact') ? 'active' : undefined)
+          i.fa.fa-bug
+        li.nav-item
+          a.nav-link(href='/options', class=(title == 'Options') ? 'active' : undefined)
+          i.fa.fa-cog
+        li.nav-item.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
+          a.nav-link.dropdown-toggle(href='#', data-bs-toggle='dropdown')
+            span.ms-2= user.profile.name || user.email || user.id
+            i.caret
+          .dropdown-menu
+            a.dropdown-item(href='/account')= _x("My Account", "Nav Menu My Account") 
+            a.dropdown-item(href='/logout')= _x("Logout", "Nav Menu Logout") 
 
-    
+      
     //-const plugins = app.get("plugins");
     

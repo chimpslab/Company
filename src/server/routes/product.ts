@@ -1,25 +1,25 @@
 import {Router} from "express";
 import { isAuthenticated } from "../util/passport";
-import * as invoiceController from "../controllers/invoice"
+import * as controller from "../controllers/product"
 import { body } from "express-validator";
 
 const app = Router();
 
 app.get('/'
     , isAuthenticated
-    , invoiceController.manage);
+    , controller.manage);
 app.post('/create'
     , isAuthenticated
-    , invoiceController.create);
+    , controller.create);
 app.post('/update'
     , isAuthenticated
     , body("id", "Id is missing").notEmpty().isAlphanumeric()
-    , invoiceController.update);
+    , controller.update);
 app.post('/remove'
     , isAuthenticated
     , body("id", "Id is missing").notEmpty().isAlphanumeric()
-    , invoiceController.remove);
+    , controller.remove);
 app.get('/read'
     , isAuthenticated
-    , invoiceController.read);
+    , controller.read);
 export default app;

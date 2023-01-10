@@ -1,26 +1,26 @@
 import {Router} from "express";
 import { isAuthenticated } from "../util/passport";
 
-import * as organizationController from "../controllers/organization";
+import * as controller from "../controllers/organization";
 import { body } from "express-validator";
 
 const app = Router();
 
-app.get('/organization'
+app.get('/'
     , isAuthenticated
-    , organizationController.manage);
-app.post('/organization/create'
+    , controller.manage);
+app.post('/create'
     , isAuthenticated
-    , organizationController.create);
-app.post('/organization/update'
-    , isAuthenticated
-    , body("id", "Id is missing").notEmpty().isAlphanumeric()
-    , organizationController.update);
-app.post('/organization/remove'
+    , controller.create);
+app.post('/update'
     , isAuthenticated
     , body("id", "Id is missing").notEmpty().isAlphanumeric()
-    , organizationController.remove);
-app.get('/organization/read'
+    , controller.update);
+app.post('/remove'
     , isAuthenticated
-    , organizationController.read);
+    , body("id", "Id is missing").notEmpty().isAlphanumeric()
+    , controller.remove);
+app.get('/read'
+    , isAuthenticated
+    , controller.read);
 export default app;

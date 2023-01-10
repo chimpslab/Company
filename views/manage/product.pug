@@ -1,0 +1,155 @@
+//- 2019 BrightNightGames. All Rights Reserved
+
+extends ../layout
+
+block header 
+  script#tmpl-table(type="x-tmpl-mustache")
+    table.table.table-sm.table-hover.table-striped
+      thead
+        tr
+          th(scope="col")
+            span.d-none #
+          th(scope="col") 
+          th(scope="col") 
+          th(scope="col")= _x("Name","Name")
+          th(scope="col")
+            span.d-none.d-md-block= _x("Leave a comment...","comment the event")
+          th(scope="col") 
+            span.d-none.d-md-block= _x("Phone","Phone")
+          
+          th(scope="col") 
+            i.fa.fa-wrench.d-none.d-md-block
+      tbody
+  script#tmpl-row(type="x-tmpl-mustache")
+    tr
+      th(scope="row") 
+        .d-none
+          .d-flex.justify-content-end
+            span {{index}} 
+      td
+        .d-none.d-md-block
+          a.btn.btn-link.details.p-0(href="#" tabindex="0" data-html="true" role="button" data-toggle="popover" data-trigger="focus")
+            .fa.fa-search
+      td
+        img.logo(src="{{image}}" width="32" height="32")
+      td {{name}}
+      td
+        span.d-none.d-md-block {{comment}}
+      td 
+        a.d-none.d-lg-block(href="#" clipboard="+{{telephone}}")
+          label.text-monospace {{#telephone}}+{{telephone}}{{/telephone}}{{^telephone}}-{{/telephone}}
+      
+      td 
+        a.p-2.btn.btn-link.fa.fa-pencil.edit(href="#" data-id="{{_id}}")
+        a.p-2.btn.btn-link.fa.fa-remove.delete(href="#" data-id="{{_id}}")
+  script#tmpl-row-popover(type="x-tmpl-mustache")
+    .m-1
+      dl.row
+        dt.col.col-auto
+          img.rounded.mx-auto.d-block(src="{{logoSmall}}" width="64")
+        dd.col.pl-1
+          h5 {{short}} 
+          small {{name}}
+        .col-12
+          .d-flex.flex-column.pt-2
+            .p-1
+              a(href="#" mailto="{{email}}" clipboard="{{email}}") 
+                .fa.fa-envelope-o.pr-2
+                label.text-monospace {{contact.email}}
+            .p-1
+              a(href="#" phone="{{phone}}" clipboard="{{phone}}")
+                .fa.fa-phone.pr-2
+                label.text-monospace {{#telephone}}+{{telephone}}{{/telephone}}{{^telephone}}-{{/telephone}}
+      .row
+        .col
+          .card.bg-light.p-1
+            span.card-text {{#comment}}{{comment}}{{/comment}}{{^comment}}-{{/comment}}
+  script#tmpl-form(type="x-tmpl-mustache")
+    .container
+      form.form-horizontal(action="{{action}}", method='POST', autocomplete="off")
+        input(type='hidden', name='_csrf', value="_csrf")
+        input(type='hidden', name='id', value="{{_id}}")
+
+        .row
+          .col.col-12 
+            h5= _x("General","General")  
+          .form-group.col-12 
+            label= _x("Image","Product Image") 
+            input(type="hidden" name="image")
+            .col
+              .d-flex.justify-content-begin
+                img.preview(width='128', height='128')
+                .form-group.align-self-center 
+                  input.btn.btn-link(id=`{{r}}_logo` name="logo" type="file" accept=".png,.jpg,.jpeg" hidden)
+                  label.btn.btn-link(for=`{{r}}_logo`) 
+                    i.fa.fa-upload
+                    small.ps-2.form-text= _x("Upload Image","Upload Image")  
+          .form-group.col-md-6
+            label(for=`{{r}}_name`)= _x("Name","product Name")  
+            input.form-control(type='text', value="{{name}}" name='name', id=`{{r}}_name` placeholder="Name" required)
+          
+            label(for=`{{r}}_price`)= _x("Price","product price")  
+            input.form-control(type='number', step="0.1", min="0", value="{{price}}" name='price', id=`{{r}}_price` placeholder="ex 12,00€")
+            
+            label(for=`{{r}}_vatrate`)= _x("Vat rate","product vat rate")  
+            input.form-control(type='number', step="0.1", min="0", value="{{vatrate}}" name='vatrate', id=`{{r}}_vatrate` placeholder="ex: 21%")
+        
+          .form-group.col-12
+            label(for=`{{r}}_description`)= _x("Description...","product description")  
+            textarea.w-100.form-control.md-textarea(name='description' id=`{{r}}_description`, rows="3"  placeholder=_x("Leave a comment...","comment the event"))
+              | {{description}} 
+        .form-group.row.d-flex.justify-content-end.mx-1
+          button.btn(type='reset')= _x("Reset","Reset")  
+          button.btn.btn-primary.ml-1(type='submit')= _x("Send","product Send")   
+  script#tmpl-form-delete(type="x-tmpl-mustache")
+    .container
+      form.form-horizontal(action="/product/remove", method='POST', autocomplete="off")
+        input(type='hidden', name='id', value="{{_id}}")
+
+        h5 Sure to delete {{name}} ? 
+        img.rounded(src="{{#logoSmall}}{{logoSmall}}{{/logoSmall}}{{^logoSmall}}/images/camera.svg{{/logoSmall}}" width="64" height="64")
+        .m-3.d-flex.justify-content-end
+          .p-1
+            button.btn.btn-primary(type="button" data-dismiss="modal") Cancel
+          .p-1
+            button.btn.btn-secondary.ok(type="submit") Yes
+
+block content
+  app-product       
+    #product-modal.modal.fade(tabindex="-1" role="dialog" data-backdrop="static")
+      .modal-dialog.modal-xl.modal-dialog-scrollable(role="document")
+        .modal-content
+          .modal-header
+            ul#modal-tabs.nav.nav-tabs(role="tablist")
+              li.nav-item
+                a.nav-link.active(type="button" title="Create" data-toggle="tab" href="#add-product-collapse" aria-controls="add-product-collapse" aria-selected="true")
+                  i.fa.fa-plus
+                  span.ps-2= _x("Create","Create")  
+              li.nav-item
+                a.nav-link.disabled(type="button" title="Edit" data-toggle="tab" href="#edit-product-collapse" aria-controls="edit-product-collapse" aria-selected="false")
+                  i.fa.fa-pencil
+                  span.ps-2= _x("Edit","Edit")   
+              li.nav-item
+                a.nav-link.disabled(type="button" title="Edit" data-toggle="tab" href="#delete-product-collapse" aria-controls="delete-product-collapse" aria-selected="false")
+                  i.fa.fa-trash
+                  span.ps-2= _x("Delete","Delete")   
+            button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+          .modal-body
+            .tab-content.mt-4
+              #add-product-collapse.tab-pane.fade.show.active
+              #edit-product-collapse.tab-pane.fade
+              #delete-product-collapse.tab-pane.fade
+    .row
+      .col.col-12.col-md-2.col-lg-2
+        nav.nav.nav-pills.flex-column
+          a#new.nav-item.btn.btn-primary(href="#" type="button" data-bs-toggle="modal" data-bs-target="#product-modal")
+            i.fa.fa-plus
+            span.ps-2= _x("Add","Add")
+      .col.col-expand
+        .d-flex.flex-column.card.border-light
+          #product.mvh-70
+block footer         
+  script.
+    // hello from ALPINE
+    Alpine.start()
+    customElements.define("app-product", require("app").widget.PTProductPanel)

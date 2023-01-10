@@ -5,6 +5,8 @@ jmRAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAY
 SURBVBhXYwCC/2AAZYEoOAMs8Z+BgQEAXdcR7/Q1gssAAAAASUVORK5CYII=)
 
 # Invoice
+
+<div class="header" markdown>
 | | | | |
 | --- | --- | --- | --- |
 | {{provider.legalName}}     |  | Date | {{invoice.date}} | | 
@@ -14,23 +16,31 @@ SURBVBhXYwCC/2AAZYEoOAMs8Z+BgQEAXdcR7/Q1gssAAAAASUVORK5CYII=)
 | {{provider.mail}} |  |  | {{customer.streetAddress}} |
 |  |  |  | {{customer.countryCode}}-{{customer.postalCode}} {{customer.city}} |
 |  |  |  | VAT: {{customer.vatID}} |
+</div>
+--- 
 
+<div class="invoice" markdown>
+
+##### {{invoice.description}} 
 
 | Description | Unit Price | Amount | Sub |
-| --- | --- | --- | --- |
-| {{invoice.description}} |  | |
-{{#items}}
-| {{description}} | {{price}} | {{amount}} | {{sub}} {{currency}} |
-{{/items}}
+| --- | ---: | ---: | ---: |
+{{#invoice.items}}
+| {{description}} | {{price}} | {{amount}} | {{sub}} |
+{{/invoice.items}}
 |  |  |  |  |
-|  |  | Sub Total | {{subtotal}} |
-|  |  | VAT Rate | {{vatrate}} |
-|  |  | VAT  | {{vat}} {{currency}} |
-|  |  | Total | {{total}} {{currency}} |
+|  |  | Sub Total | {{invoice.subtotal}} |
+|  |  | VAT Rate | {{invoice.vatrate}} |
+|  |  | VAT  | {{invoice.vat}} |
+|  |  | **Total** | **{{invoice.total}}** |
+
+</div>
+
+--- 
 
 <div class="w-100">
     <div class="d-flex justify-content-center">
-        Thank you from your friends at {{provider.name}}
+        <b>Thank you from your friends at {{provider.name}}</b>
     </div>
 </div>
 
