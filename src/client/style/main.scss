@@ -8,8 +8,14 @@
         }
     }
     .btn {
-        --bs-btn-color: rgb(231, 231, 231)
+        --bs-btn-color: rgb(231, 231, 231);
     }
+
+    .btn-close,
+    .navbar-toggler-icon {
+        filter: invert(1)
+    }
+
     .navbar{
 
         --bs-navbar-color: rgba(231, 231, 231, 0.55);
