@@ -96,11 +96,11 @@ block header
             label(for=`{{r}}_vatrate`)= _x("Vat rate","product vat rate")  
             input.form-control(type='number', step="0.1", min="0", value="{{vatrate}}" name='vatrate', id=`{{r}}_vatrate` placeholder="ex: 21%")
         
-            +input_tag
           .form-group.col-12
             label(for=`{{r}}_description`)= _x("Description...","product description")  
             textarea.w-100.form-control.md-textarea(name='description' id=`{{r}}_description`, rows="3"  placeholder=_x("Leave a comment...","comment the event"))
               | {{description}} 
+            +input_tag
 
         .form-group.row.d-flex.justify-content-end.mx-1
           button.btn(type='reset')= _x("Reset","Reset")  
@@ -120,8 +120,8 @@ block header
 
 block content
   app-product       
-    #product-modal.modal.fade(tabindex="-1" role="dialog" data-backdrop="static")
-      .modal-dialog.modal-xl.modal-dialog-scrollable(role="document")
+    #product-modal.modal.fade(tabindex="-1" role="dialog" data-bs-backdrop="static")
+      .modal-dialog.modal-fullscreen.modal-dialog-scrollable(role="document")
         .modal-content
           .modal-header
             ul#modal-tabs.nav.nav-tabs(role="tablist")

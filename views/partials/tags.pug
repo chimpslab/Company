@@ -16,14 +16,15 @@ mixin tmpl_tags
     script#tmpl_ulist(type="x-tmpl-mustache")
         .tags-list.d-flex.mt-1
             | {{#tags}}
-            <span class='badge badge-info mr-1 py-0 tag'>
-                span.ml-1() {{.}}
-                a.btn.btn-link.ml-2.p-0(href="#" data-action="remove" data-value="{{.}}")
-                    .fa.fa-times-circle-o()
-            </span>
+            span.badge.text-bg-info.mr-1.position-relative.tag
+                span {{.}}
+                span.position-absolute.top-0.start-100.translate-middle.p-2
+                    a.btn.btn-link(href="#" data-bs-dismiss=".tag" data-value="{{.}}")
+                        .fa.fa-times-circle-o()
+
             | {{/tags}}
 mixin input_tag
     app-tags
         label.control-label= _x("Tags", "News form Tags")
         input.form-control(name='tags', id='tags' value="{{tags}}")
-        small.col-sm-3.control-label.text-muted Separate values with ","
+        small.col-sm-3.control-label.text-muted(data-tooltip) Separate values with ","
