@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import _ from "lodash";
+import { tags } from "mustache";
 import timezone from "../../data/timezone.json"
 import { iOrganization, Organization, OrganizationDocument } from "../models/Organization";
 import { Person } from "../models/Person";
@@ -18,6 +19,7 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
     const newOrganization = new Organization ({
         name: req.body.name,
+        image: req.body.image,
         legalName: req.body.legalName,
         telephone: req.body.telephone,
         mail: req.body.mail,
@@ -32,6 +34,8 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
         taxID: req.body.taxid,
         vatID: req.body.vatid,
         timezone: req.body.timezone,
+        description: req.body.description,
+        tags: req.body.tags.split(",")
     });
 
     if (req.body.contact) {
@@ -55,6 +59,7 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
     const orga: iOrganization = {
         name: req.body.name,
+        image: req.body.image,
         legalName: req.body.legalName,
         telephone: req.body.telephone,
         mail: req.body.mail,
@@ -69,6 +74,8 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
         taxID: req.body.taxid,
         vatID: req.body.vatid,
         timezone: req.body.timezone,
+        description: req.body.description,
+        tags: req.body.tags.split(",")
     };
 
     if (req.body.contact) {

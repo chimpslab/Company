@@ -1,0 +1,18 @@
+
+mixin tmpl_image 
+    script#tmpl-image(type="x-tmpl-mustache")
+        canvas.image.rounded()
+
+mixin input_image 
+    - r = (Math.random()*1000).toFixed();
+    app-image
+        label= _x("Image","Input Image") 
+        input(type="hidden" name="image" value="{{image}}" data-output)
+        .col
+            .d-flex.justify-content-begin
+            img.preview(width='128', height='128')
+            .form-group.align-self-center 
+                input.btn.btn-link(id=`{{r}}_logo` data-loader type="file" accept=".png,.jpg,.jpeg" hidden)
+                label.btn.btn-link(for=`{{r}}_logo`) 
+                    i.fa.fa-upload
+                    small.ps-2.form-text= _x("Upload Image","Upload Image") 

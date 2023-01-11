@@ -1,8 +1,13 @@
 //- 2019 BrightNightGames. All Rights Reserved
 
 extends ../layout
+include ../partials/tags
+include ../partials/image
 
 block header 
+  +tmpl_tags
+  +tmpl_image
+
   script#tmpl-table(type="x-tmpl-mustache")
     table.table.table-sm.table-hover.table-striped
       thead
@@ -13,9 +18,9 @@ block header
           th(scope="col") 
           th(scope="col")= _x("Name","Name")
           th(scope="col")
-            span.d-none.d-md-block= _x("Leave a comment...","comment the event")
+            span.d-none.d-md-block= _x("Description","Desciption of the company")
           th(scope="col") 
-            span.d-none.d-md-block= _x("Phone","Phone")
+            span.d-none.d-lg-block= _x("Phone","Phone")
           
           th(scope="col") 
             i.fa.fa-wrench.d-none.d-md-block
@@ -34,7 +39,7 @@ block header
         img.logo(src="{{image}}" width="32" height="32")
       td {{name}}
       td
-        span.d-none.d-md-block {{comment}}
+        span.d-none.d-md-block {{description}}
       td 
         a.d-none.d-lg-block(href="#" clipboard="+{{telephone}}")
           label.text-monospace {{#telephone}}+{{telephone}}{{/telephone}}{{^telephone}}-{{/telephone}}
@@ -69,25 +74,17 @@ block header
       label(for=`{{r}}_billing_address`)= _x("Address","Address") 
       input.form-control(type='text', value="{{.}}" name='billing_address', id=`{{r}}_billing_address` placeholder="1234B Main St"  )
   script#tmpl-form(type="x-tmpl-mustache")
-    .container
+    .container-flex
       form.form-horizontal(action="{{action}}", method='POST', autocomplete="off")
         input(type='hidden', name='_csrf', value="_csrf")
         input(type='hidden', name='id', value="{{_id}}")
 
         .row
-          .col.col-12 
+          .col.col-12
             h5= _x("General","General")  
+          
           .form-group.col-12 
-            label= _x("Image","Company Image") 
-            input(type="hidden" name="image")
-            .col
-              .d-flex.justify-content-begin
-                img.preview(width='128', height='128')
-                .form-group.align-self-center 
-                  input.btn.btn-link(id=`{{r}}_logo` name="logo" type="file" accept=".png,.jpg,.jpeg" hidden)
-                  label.btn.btn-link(for=`{{r}}_logo`) 
-                    i.fa.fa-upload
-                    small.ps-2.form-text= _x("Upload Image","Upload Image")  
+            +input_image
           .form-group.col-md-6
             label(for=`{{r}}_name`)= _x("Name","organization Name")  
             input.form-control(type='text', value="{{name}}" name='name', id=`{{r}}_name` placeholder="Name" required)
@@ -98,7 +95,6 @@ block header
             label(for=`{{r}}_phone`)= _x("Phone","organization Phone")  
             input.form-control(type='text', value="{{telephone}}" name='telephone', id=`{{r}}_phone` placeholder="32484XXXXXX" pattern="[0-9]+")
           .form-group.col-md-6
-          .form-group.col-md-6
             label(for=`{{r}}_mail`)= _x("Mail","organization Mail")  
             input.form-control(type='email', value="{{mail}}" name='mail', id=`{{r}}_mail` placeholder="you@mail.com")
           .form-group.col-md-6
@@ -106,19 +102,13 @@ block header
             input.form-control(type='text', value="{{languageCode}}" name='languageCode', id=`{{r}}_language` placeholder="be-fr")
 
         .row
-          
-          //- label.align-self-center.logo.square.large(src="/images/LogoSB.png" width='128', height='128' )
-          //- label.align-self-center(src="/images/LogoSB.png", class='ml-3 logo border-circle', width='48', height='48' data-preview="logo")
-           
-        
-        .row
-          .col.col-12 
+          .col.col-12.mt-4
             h5= _x("Contact detail","Contact detail") 
           .form-group.col-md-12
             label(for=`{{r}}_person`)= _x("Person","Organization Person contact")  
             input.form-control(type='text', value="{{contact.person}}" name='contact', id=`{{r}}_person` placeholder="Someone in charge")
         .row
-          .col.col-12 
+          .col.col-12.mt-4
             h5= _x("Billing Information","Billing Information")
           
           .form-group.col-md-6
@@ -145,7 +135,7 @@ block header
           |  {{ > addressline}}
           |{{/billing.streetAddress}}
         .row
-          .col.col-12 
+          .col.col-12.mt-4
             h5= _x("Advanced","Advanced") 
           .form-group.col-md-6
             label(for=`{{r}}_timezone`)= _x("Time Zone","Organization Time Zone")  
@@ -157,7 +147,9 @@ block header
           .form-group.col-12
             label(for=`{{r}}_description`)= _x("Leave a description...","Organization description")  
             textarea.w-100.form-control.md-textarea(name='description' id=`{{r}}_description`, rows="3"  placeholder=_x("Leave a comment...","comment the event"))
-              | {{description}} 
+              |{{description}} 
+            +input_tag
+
         .form-group.row.d-flex.justify-content-end.mx-1
           button.btn(type='reset')= _x("Reset","Reset")  
           button.btn.btn-primary.ml-1(type='submit')= _x("Send","Organization Send")   
@@ -177,7 +169,7 @@ block header
 block content
   app-organization       
     #organization-modal.modal.fade(tabindex="-1" role="dialog" data-backdrop="static")
-      .modal-dialog.modal-xl.modal-dialog-scrollable(role="document")
+      .modal-dialog.modal-fullscreen.modal-dialog-scrollable(role="document")
         .modal-content
           .modal-header
             ul#modal-tabs.nav.nav-tabs(role="tablist")
@@ -213,3 +205,6 @@ block footer
     // hello from ALPINE
     Alpine.start()
     customElements.define("app-organization", require("app").widget.PTOrganizationPanel)
+    customElements.define("app-tags", require("app").widget.PTTagInput)
+    customElements.define("app-image", require("app").widget.PTImageInput)
+    

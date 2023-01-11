@@ -6,6 +6,7 @@ import { select_timezone } from "./core/timezone";
 import { PTInvoicePanel } from "./app/invoice";
 import { PTProductPanel } from "./app/product";
 import { PTTagInput } from "./core/tags";
+import { PTImageInput } from "./core/image";
 
 export const version = "1.0.0";
 export const app = {
@@ -25,6 +26,7 @@ export const widget = {
     PTOrganizationPanel,
     PTInvoicePanel,
     PTProductPanel,
-    PTTagInput
+    PTTagInput,
+    PTImageInput,
 }
 export default app;

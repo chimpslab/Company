@@ -89,7 +89,9 @@ export class PTOrganizationPanel extends HTMLElement {
         $table_body.empty().append(
           OrganizationTable(data)
         );
-        callback(data);
+        if(_.isFunction(callback)){
+          callback(data);
+        }
       })
     }
     function OrganizationForm(data: any) {
