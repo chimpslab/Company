@@ -89,13 +89,13 @@ block header
           .form-group.col-md-6
             label(for=`{{r}}_name`)= _x("Name","product Name")  
             input.form-control(type='text', value="{{name}}" name='name', id=`{{r}}_name` placeholder="Name" required)
-          
+
             label(for=`{{r}}_price`)= _x("Price","product price")  
             input.form-control(type='number', step="0.1", min="0", value="{{price}}" name='price', id=`{{r}}_price` placeholder="ex 12,00€")
-            
+
             label(for=`{{r}}_vatrate`)= _x("Vat rate","product vat rate")  
             input.form-control(type='number', step="0.1", min="0", value="{{vatrate}}" name='vatrate', id=`{{r}}_vatrate` placeholder="ex: 21%")
-        
+
           .form-group.col-12
             label(for=`{{r}}_description`)= _x("Description...","product description")  
             textarea.w-100.form-control.md-textarea(name='description' id=`{{r}}_description`, rows="3"  placeholder=_x("Leave a comment...","comment the event"))

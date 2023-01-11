@@ -14,17 +14,18 @@ mixin tmpl_tags
                     input.ml-1(id="tagcb_{{.}}" type="checkbox" value="{{.}}" )
             | {{/tags}}
     script#tmpl_ulist(type="x-tmpl-mustache")
-        .tags-list.d-flex.mt-1
+        .tags-list.d-flex.flex-wrap
             | {{#tags}}
-            span.badge.text-bg-info.mr-1.position-relative.tag
+            span.badge.text-bg-light.position-relative.ms-2.mt-2.tag
                 span {{.}}
-                span.position-absolute.top-0.start-100.translate-middle.p-2
-                    a.btn.btn-link(href="#" data-bs-dismiss=".tag" data-value="{{.}}")
+                span.position-absolute.top-0.start-100.translate-middle
+                    a.btn.btn-link.p-0(href="#" data-bs-dismiss=".tag" data-value="{{.}}")
                         .fa.fa-times-circle-o()
 
             | {{/tags}}
 mixin input_tag
     app-tags
         label.control-label= _x("Tags", "Form Tags input")
-        input.form-control(name='tags', id='tags' value="{{tags}}")
+        input.form-control(id='tagsin' placeholder="Separate values with ','")
+        input.form-control(hidden, name='tags', id='tagsout' value="{{tags}}")
         small.col-sm-3.control-label.text-muted(data-tooltip) Separate values with ","
