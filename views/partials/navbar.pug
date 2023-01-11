@@ -15,14 +15,14 @@ if user
           a.nav-link(href='/product', class=(title == 'Product') ? 'active' : undefined)= _x("Product", "Nav Menu Product")
         li.nav-item
           a.nav-link(href='/contact', class=(title == 'Contact') ? 'active' : undefined)
-          i.fa.fa-bug
+            i.fa.fa-bug
         li.nav-item
           a.nav-link(href='/options', class=(title == 'Options') ? 'active' : undefined)
-          i.fa.fa-cog
+            i.fa.fa-cog
         li.nav-item.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
           a.nav-link.dropdown-toggle(href='#', data-bs-toggle='dropdown')
             span.ms-2= user.profile.name || user.email || user.id
-            i.caret
+              i.caret
           .dropdown-menu
             a.dropdown-item(href='/account')= _x("My Account", "Nav Menu My Account") 
             a.dropdown-item(href='/logout')= _x("Logout", "Nav Menu Logout") 

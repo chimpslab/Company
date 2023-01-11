@@ -1,0 +1,29 @@
+
+mixin tmpl_tags
+    script#tmpl_tag(type="x-tmpl-mustache")
+        a.bg-dark.text-light.text-monospace.p-1.text-capitalize(id="tag_{{.}}" href="#")
+            label(for="tagcb_{{.}}")
+                | {{.}}
+                checkbox(id="tagcb_{{.}}" hidden)
+    script#tmpl_tag_multi_select(type="x-tmpl-mustache")
+        app-tag-select-multiple.tags-list.d-block.mt-1
+            | {{#tags}}
+            app-tag-checkbox.tag
+                label.btn.btn-link.ml-1.p-1.text-uppercase.text-monospace.bg-dark.text-light(id="tag_{{.}}" for="tagcb_{{.}}")
+                    | {{.}}
+                    input.ml-1(id="tagcb_{{.}}" type="checkbox" value="{{.}}" )
+            | {{/tags}}
+    script#tmpl_ulist(type="x-tmpl-mustache")
+        .tags-list.d-flex.mt-1
+            | {{#tags}}
+            <span class='badge badge-info mr-1 py-0 tag'>
+                span.ml-1() {{.}}
+                a.btn.btn-link.ml-2.p-0(href="#" data-action="remove" data-value="{{.}}")
+                    .fa.fa-times-circle-o()
+            </span>
+            | {{/tags}}
+mixin input_tag
+    app-tags
+        label.control-label= _x("Tags", "News form Tags")
+        input.form-control(name='tags', id='tags' value="{{tags}}")
+        small.col-sm-3.control-label.text-muted Separate values with ","

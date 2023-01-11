@@ -5,6 +5,7 @@ import {PTOrganizationPanel} from "./app/organization"
 import { select_timezone } from "./core/timezone";
 import { PTInvoicePanel } from "./app/invoice";
 import { PTProductPanel } from "./app/product";
+import { PTTagInput } from "./core/tags";
 
 export const version = "1.0.0";
 export const app = {
@@ -24,5 +25,6 @@ export const widget = {
     PTOrganizationPanel,
     PTInvoicePanel,
     PTProductPanel,
+    PTTagInput
 }
 export default app;
